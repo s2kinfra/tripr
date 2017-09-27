@@ -25,14 +25,22 @@
     "//": "crypto: Vapor's default cipher powered by OpenSSL (configure in crypto.json)",
     "cipher": "crypto",
 
+    "view": "leaf",
+    "driver": "fluent",
+    "cache" : "redis",
+    "sessions": "cache",
+    
     "//": "Choose which middleware are enabled (and in which order).",
     "//": "error: Catches errors thrown in your application and returns a nice response.",
     "//": "date: Adds the 'Date' header to HTTP requests.",
     "//": "file: Catches 404 errors and checks for files in the Public/ folder",
     "middleware": [
-        "error",
-        "date",
-        "file"
+                   "redis",
+                   "error",
+                   "date",
+                   "sessions",
+                   "persist",
+                   "file"
     ],
 
     "//": "Choose which commands this application can run",
