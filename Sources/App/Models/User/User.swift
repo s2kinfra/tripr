@@ -16,6 +16,11 @@ final class User {
     var password : Bytes
     var profilePicture : File?
     
+    init(username _username : String, email _email: String, password _password : Bytes) {
+        username = _username
+        email = _email
+        password = _password
+    }
     
     init() {
         password = []

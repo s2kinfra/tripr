@@ -62,7 +62,7 @@ extension Envy: Preparation {
     static func prepare(_ database: Database) throws {
         try database.create(self) { builder in
             builder.id()
-            builder.foreignId(for: File.self, optional: false, unique: false, foreignIdKey: "enviedBy", foreignKeyName: "enviedBy")
+            builder.foreignId(for: User.self, optional: false, unique: false, foreignIdKey: "enviedBy", foreignKeyName: "envy_enviedBy")
             builder.string("enviedObject")
             builder.int("enviedObjectId")
             builder.double("timestamp")

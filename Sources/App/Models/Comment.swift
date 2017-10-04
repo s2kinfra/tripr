@@ -71,7 +71,7 @@ extension Comment: Preparation {
             builder.string("object")
             builder.int("objectId")
             builder.string("text")
-            builder.foreignId(for: User.self, optional: false, unique: false, foreignIdKey: "writtenBy", foreignKeyName: "writtenBy")
+            builder.foreignId(for: User.self, optional: false, unique: false, foreignIdKey: "writtenBy", foreignKeyName: "comment_writtenBy")
             builder.double("timestamp")
         }
     }

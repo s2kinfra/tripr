@@ -52,7 +52,7 @@ extension Attachment: Preparation {
             builder.id()
             builder.string("object")
             builder.int("objectId")
-            builder.foreignId(for: File.self, optional: false, unique: false, foreignIdKey: "file", foreignKeyName: "file")
+            builder.foreignId(for: File.self, optional: false, unique: false, foreignIdKey: "file", foreignKeyName: "attach_file")
             builder.double("timestamp")
         }
     }

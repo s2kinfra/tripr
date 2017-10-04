@@ -27,6 +27,7 @@ final class File : Model {
     init(){
         uploadedBy = 0
     }
+    
     init(row: Row) throws {
         name = try row.get("name")
         path = try row.get("path")

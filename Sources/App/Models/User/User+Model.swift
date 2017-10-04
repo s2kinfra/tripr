@@ -30,6 +30,10 @@ extension User : Model {
         try row.set("id", id)
         return row
     }
+    
+    func didUpdate() {
+        User.sessionCache.removeValue(forKey: String(describing: self.id!.wrapped.int!))
+    }
 }
 
 extension User : Parameterizable {

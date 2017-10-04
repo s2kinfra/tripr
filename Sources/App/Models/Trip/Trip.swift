@@ -13,15 +13,46 @@ final class Trip {
     var storage = Storage()
     
     var attendees = [User]()
-    var destinations = [Destination]()
-    var places : [Place]?
-    var routes : [Route]?
+    var destinations : [Destination] {
+        get {
+           guard let destinations = try? Destination.makeQuery().and({ andGroup in
+                try andGroup.filter("relatedObjectId", .equals, objectIdentifier)
+                try andGroup.filter("relatedObject", .equals, objectType)
+                
+           }).all() else {
+             return [Destination]()
+            }
+            
+            return destinations
+        }
+    }
+    var places : [Place] {
+        get {
+            guard let places = try? Place.makeQuery().and({ andGroup in
+                try andGroup.filter("relatedObjectId", .equals, objectIdentifier)
+                try andGroup.filter("relatedObject", .equals, objectType)
+                
+            }).all() else {
+                return [Place]()
+            }
+            
+            return places
+        }
+    }
+    
+//    var routes : [Route] {
+//        get {
+//            
+//        }
+//    }
+    
     var tripStart : Date?
     var tripEnd : Date?
     var name : String
     var coverPhoto : File?
-    var tripDescription : String?
+    var tripDescription : String = ""
     var createdBy : Identifier
+    var publicTrip : Bool = false
     
     
     init(name _name : String, tripStart _start : Date, tripEnd _end : Date, createdBy _createdBy : Identifier) throws{
@@ -66,15 +97,15 @@ final class Trip {
     //MARK: DESTINATIONS
     
     //TODO: TODO ADD NOTIFICATIONS TO ALL METHODS
-    func addDestination(destination _dest: Destination){
-        self.destinations.append(_dest)
-    }
-    
-    func removeDestination(destination _dest: Destination){
-        if let i = self.destinations.index(where: {$0.id == _dest.id}){
-            self.destinations.remove(at: i)
-        }
-    }
+//    func addDestination(destination _dest: Destination){
+//        self.destinations.append(_dest)
+//    }
+//
+//    func removeDestination(destination _dest: Destination){
+//        if let i = self.destinations.index(where: {$0.id == _dest.id}){
+//            self.destinations.remove(at: i)
+//        }
+//    }
     
     
 }

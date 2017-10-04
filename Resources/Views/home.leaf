@@ -1,0 +1,195 @@
+#extend("base")
+#export("body") {
+
+      <div class="row">
+        <!-- left links -->
+        <div class="col-md-3">
+          <div class="profile-nav">
+            <div class="widget">
+              <div class="widget-body">
+                <div class="user-heading round">
+                  <a href="/user/#(user.username)/profile">
+                      <img src="#(user.profileImage.path)" alt="">
+                  </a>
+                  <h1>#(user.firstname) #(user.lastname)</h1>
+                  <p>@#(user.username) </p>
+                </div>
+
+                <ul class="nav nav-pills nav-stacked">
+                    <li #import("timeline_active")><a href="/"> <i class="glyphicon glyphicon-road"></i> Timeline</a></li>
+                  <li #import("trips_active")>
+                    <a href="/user/#(user.username)/trips">
+                      <i class="glyphicon glyphicon-globe"></i> Trips
+                      <!--<span class="label label-info pull-right r-activity">9</span>-->
+                    </a>
+                  </li>
+                  <li #import("timeline_follows")><a href="#()"> <i class="glyphicon glyphicon-log-out"></i> Follows</a></li>
+                  <li #import("timeline_followers")><a href="#()"> <i class="glyphicon glyphicon-log-in"></i> Followers</a></li>
+                </ul>
+              </div>
+            </div>
+            <!--
+            <div class="widget">
+              <div class="widget-body">
+                <ul class="nav nav-pills nav-stacked">
+                  <li><a href="#()"> <i class="fa fa-globe"></i> Pages</a></li>
+                  <li><a href="#()"> <i class="fa fa-gamepad"></i> Games</a></li>
+                  <li><a href="#()"> <i class="fa fa-puzzle-piece"></i> Ads</a></li>
+                  <li><a href="#()"> <i class="fa fa-home"></i> Markerplace</a></li>
+                  <li><a href="#()"> <i class="fa fa-users"></i> Groups</a></li>
+                </ul>
+              </div>
+            </div>-->
+          </div>
+        </div><!-- end left links -->
+
+
+        <!-- center posts -->
+        #import("home_center")
+
+        <!-- right posts -->
+        <div class="col-md-3">
+            <!-- Followers -->
+            <div class="widget">
+                <div class="widget-header">
+                    
+                    <h3 class="widget-caption">Followers :</h3> <span class="label label-info pull-right r-activity">#count(_followers)</span>
+                </div>
+                <div class="widget-body bordered-top bordered-sky">
+                    <div class="card">
+                        <div class="content">
+                            <ul class="list-unstyled team-members">
+                                #loop(_followers, "follower" ) {
+                                <li>
+                                    <div class="row">
+                                        <div class="col-xs-3">
+                                            <div class="avatar">
+                                                <img src="#(follower.profileImage.path)" alt="Circle Image" class="img-circle img-no-padding img-responsive">
+                                                    </div>
+                                        </div>
+                                        <div class="col-xs-6">
+                                            <a href="/user/#(follower.username)/profile">#(follower.firstname) #(follower.lastname)</a>
+                                            #isFollowing(user.id,follower.id) { } ##isRequestingFollow(user.id,follower.id) { } ##else() {
+                                            <p>
+                                            <a href="/user/#(follower.id)/follow" class="btn btn-azure">
+                                                Follow
+                                            </a>
+                                            </p>
+                                            }
+                                        </div>
+                                    </div>
+                                </li>
+                                }
+                            </ul>
+                        </div>
+                    </div>          
+                </div>
+            </div><!-- Followers -->
+            
+          <!-- Friends activity -->
+          <div class="widget">
+            <div class="widget-header">
+              <h3 class="widget-caption">Follow Requests</h3><span class="label label-info pull-right r-activity">#count(user.followersRequests)</span>
+            </div>
+            <div class="widget-body bordered-top bordered-sky">
+              <div class="card">
+                <div class="content">
+                   <ul class="list-unstyled team-members">
+                       #followerRequests(user.id, "follower" ) {
+                       <li>
+                           <div class="row">
+                               <div class="col-xs-3">
+                                   <div class="avatar">
+                                       <img src="#(follower.profileImage.path)" alt="img" class="img-circle img-no-padding img-responsive">
+                                           </div>
+                               </div>
+                               <div class="col-xs-9">
+                                   <b><a href="/user/profile/#(follower.id)">#(follower.firstname) #(follower.lastname)</a> requested to follow </b>
+                                  
+                                   <!--<span class="timeago" >5 min ago</span>-->
+                                   <p>
+                                      <p>  <a href="/user/#(user.username)/request/#(follower.username)/accept" class="btn btn-azure">
+                                          Accept
+                                        </a></p>
+                                    </p>
+                               </div>
+                           </div>
+                       </li>
+
+                       }
+                    </ul>
+                </div>
+              </div>
+            </div>
+          </div><!-- End Friends activity -->
+
+          <!-- People You May Know -->
+          <div class="widget">
+            <div class="widget-header">
+              <h3 class="widget-caption">People You May Know</h3>
+            </div>
+            <div class="widget-body bordered-top bordered-sky">
+              <div class="card">
+                  <div class="content">
+                      <ul class="list-unstyled team-members">
+                          <li>
+                              <div class="row">
+                                  <div class="col-xs-3">
+                                      <div class="avatar">
+                                          <img src="img/Friends/guy-2.jpg" alt="Circle Image" class="img-circle img-no-padding img-responsive">
+                                      </div>
+                                  </div>
+                                  <div class="col-xs-6">
+                                     Carlos marthur
+                                  </div>
+                      
+                                  <div class="col-xs-3 text-right">
+                                      <btn class="btn btn-sm btn-azure btn-icon"><i class="fa fa-user-plus"></i></btn>
+                                  </div>
+                              </div>
+                          </li>
+                          <li>
+                              <div class="row">
+                                  <div class="col-xs-3">
+                                      <div class="avatar">
+                                          <img src="img/Friends/woman-1.jpg" alt="Circle Image" class="img-circle img-no-padding img-responsive">
+                                      </div>
+                                  </div>
+                                  <div class="col-xs-6">
+                                      Maria gustami
+                                  </div>
+                      
+                                  <div class="col-xs-3 text-right">
+                                      <btn class="btn btn-sm btn-azure btn-icon"><i class="fa fa-user-plus"></i></btn>
+                                  </div>
+                              </div>
+                          </li>
+                          <li>
+                              <div class="row">
+                                  <div class="col-xs-3">
+                                      <div class="avatar">
+                                          <img src="img/Friends/woman-2.jpg" alt="Circle Image" class="img-circle img-no-padding img-responsive">
+                                      </div>
+                                  </div>
+                                  <div class="col-xs-6">
+                                      Angellina mcblown
+                                  </div>
+                      
+                                  <div class="col-xs-3 text-right">
+                                      <btn class="btn btn-sm btn-azure btn-icon"><i class="fa fa-user-plus"></i></btn>
+                                  </div>
+                              </div>
+                          </li>
+                      </ul>
+                  </div>
+              </div>          
+            </div>
+          </div><!-- End people yout may know --> 
+        </div><!-- end right posts -->
+      </div>
+    </div>
+
+   
+  </body>
+  
+  }

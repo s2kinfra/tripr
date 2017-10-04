@@ -56,7 +56,7 @@ extension Follow: Preparation {
             builder.id()
             builder.string("object")
             builder.int("objectId")
-            builder.foreignId(for: User.self, optional: false, unique: false, foreignIdKey: "follower", foreignKeyName: "follower")
+            builder.foreignId(for: User.self, optional: false, unique: false, foreignIdKey: "follower", foreignKeyName: "follow_follower")
             builder.bool("accepted")
         }
     }

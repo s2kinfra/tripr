@@ -16,16 +16,25 @@ import Sockets
 
 class UserTests : TestCase{
     
-    func createUser() {
-        var user = User.init()
+    func createUser() throws -> User{
+        let user = User.init()
+        user.email = "test@test.com"
+        user.username = "test1"
+        user.password = try User.passwordHasher.make("password")
+        return user
+    }
+    func testCreateUser() throws {
+        let user = User.init()
         user.email = "test@test.com"
         user.username = "test1"
         user.password = try User.passwordHasher.make("password")
     }
-    func testCreateUser() {
-        var user = User.init()
-        user.email = "test@test.com"
-        user.username = "test1"
-        user.password = try User.passwordHasher.make("password")
+    
+    func testFollow() throws {
+        
+        let user1 = try createUser()
+        let user2 = try createUser()
+        try user1.startFollowing(by: user2.id!)
+        try user2.acceptFollow(follower: user1.id!)
     }
 }

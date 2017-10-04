@@ -1,0 +1,351 @@
+<div role="tabpanel" class="tab-pane" id="trips">
+    <div class="row">
+        <div class="col-md-3">
+            <div class="contact-box center-version">
+                <a href="#()">
+                    <img alt="image" class="img-circle" src="/img/Friends/woman-1.jpg">
+                        <h3 class="m-b-xs"><strong>John Doe</strong></h3>
+                        
+                        <div class="font-bold">Graphics designer</div>
+                        </a>
+                <div class="contact-box-footer">
+                    <div class="m-t-xs btn-group">
+                        <a href="messages1.html" class="btn btn-xs btn-white"><i class="fa fa-envelope"></i>Send Messages</a>
+                        <a class="btn btn-xs btn-white"><i class="fa fa-user-plus"></i> Follow</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="contact-box center-version">
+                <a href="#()">
+                    <img alt="image" class="img-circle" src="/img/Friends/woman-2.jpg">
+                        <h3 class="m-b-xs"><strong>John Doe</strong></h3>
+                        
+                        <div class="font-bold">Graphics designer</div>
+                        </a>
+                <div class="contact-box-footer">
+                    <div class="m-t-xs btn-group">
+                        <a href="messages1.html" class="btn btn-xs btn-white"><i class="fa fa-envelope"></i>Send Messages</a>
+                        <a class="btn btn-xs btn-white"><i class="fa fa-user-plus"></i> Follow</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="contact-box center-version">
+                <a href="#()">
+                    <img alt="image" class="img-circle" src="/img/Friends/woman-3.jpg">
+                        <h3 class="m-b-xs"><strong>John Doe</strong></h3>
+                        
+                        <div class="font-bold">Graphics designer</div>
+                        </a>
+                <div class="contact-box-footer">
+                    <div class="m-t-xs btn-group">
+                        <a href="messages1.html" class="btn btn-xs btn-white"><i class="fa fa-envelope"></i>Send Messages</a>
+                        <a class="btn btn-xs btn-white"><i class="fa fa-user-plus"></i> Follow</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="contact-box center-version">
+                <a href="#()">
+                    <img alt="image" class="img-circle" src="/img/Friends/guy-1.jpg">
+                        <h3 class="m-b-xs"><strong>John Doe</strong></h3>
+                        
+                        <div class="font-bold">Graphics designer</div>
+                        </a>
+                <div class="contact-box-footer">
+                    <div class="m-t-xs btn-group">
+                        <a href="messages1.html" class="btn btn-xs btn-white"><i class="fa fa-envelope"></i>Send Messages</a>
+                        <a class="btn btn-xs btn-white"><i class="fa fa-user-plus"></i> Follow</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="contact-box center-version">
+                <a href="#()">
+                    <img alt="image" class="img-circle" src="/img/Friends/guy-2.jpg">
+                        <h3 class="m-b-xs"><strong>John Doe</strong></h3>
+                        
+                        <div class="font-bold">Graphics designer</div>
+                        </a>
+                <div class="contact-box-footer">
+                    <div class="m-t-xs btn-group">
+                        <a href="messages1.html" class="btn btn-xs btn-white"><i class="fa fa-envelope"></i>Send Messages</a>
+                        <a class="btn btn-xs btn-white"><i class="fa fa-user-plus"></i> Follow</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="contact-box center-version">
+                <a href="#()">
+                    <img alt="image" class="img-circle" src="/img/Friends/guy-3.jpg">
+                        <h3 class="m-b-xs"><strong>John Doe</strong></h3>
+                        
+                        <div class="font-bold">Graphics designer</div>
+                        </a>
+                <div class="contact-box-footer">
+                    <div class="m-t-xs btn-group">
+                        <a href="messages1.html" class="btn btn-xs btn-white"><i class="fa fa-envelope"></i>Send Messages</a>
+                        <a class="btn btn-xs btn-white"><i class="fa fa-user-plus"></i> Follow</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="contact-box center-version">
+                <a href="#()">
+                    <img alt="image" class="img-circle" src="/img/Friends/guy-5.jpg">
+                        <h3 class="m-b-xs"><strong>John Doe</strong></h3>
+                        
+                        <div class="font-bold">Graphics designer</div>
+                        </a>
+                <div class="contact-box-footer">
+                    <div class="m-t-xs btn-group">
+                        <a href="messages1.html" class="btn btn-xs btn-white"><i class="fa fa-envelope"></i>Send Messages</a>
+                        <a class="btn btn-xs btn-white"><i class="fa fa-user-plus"></i> Follow</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="contact-box center-version">
+                <a href="#()">
+                    <img alt="image" class="img-circle" src="/img/Friends/woman-4.jpg">
+                        <h3 class="m-b-xs"><strong>John Doe</strong></h3>
+                        
+                        <div class="font-bold">Graphics designer</div>
+                        </a>
+                <div class="contact-box-footer">
+                    <div class="m-t-xs btn-group">
+                        <a href="messages1.html" class="btn btn-xs btn-white"><i class="fa fa-envelope"></i>Send Messages</a>
+                        <a class="btn btn-xs btn-white"><i class="fa fa-user-plus"></i> Follow</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div><!-- end friends -->
+<!-- photos -->
+<div role="tabpanel" class="tab-pane" id="settings">
+    <div class="row">
+        <div class="col-md-12">
+            <ul class="gallery-list">
+                <li>
+                    <div class="image-container">
+                        <div class="image">
+                            <img src="/img/Photos/1.jpg" alt="">
+                                </div>
+                        <div class="btn-list">
+                            <a href="view_photo.html" class="btn btn-white btn-xs"><i class="fa fa-search-plus"></i></a>
+                        </div>
+                        <div class="info">
+                            <h5>Quisque a eleifend est, quis accumsan metus.</h5>
+                            <small class="text-muted">24/08/2015</small>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="image-container">
+                        <div class="image">
+                            <img src="/img/Photos/2.jpg" alt="">
+                                </div>
+                        <div class="btn-list">
+                            <a href="view_photo.html" class="btn btn-white btn-xs"><i class="fa fa-search-plus"></i></a>
+                        </div>
+                        <div class="info">
+                            <h5>Quisque a eleifend est, quis accumsan metus.</h5>
+                            <small class="text-muted">24/08/2015</small>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="image-container">
+                        <div class="image">
+                            <img src="/img/Photos/3.jpg" alt="">
+                                </div>
+                        <div class="btn-list">
+                            <a href="view_photo.html" class="btn btn-white btn-xs"><i class="fa fa-search-plus"></i></a>
+                        </div>
+                        <div class="info">
+                            <h5>Quisque a eleifend est, quis accumsan metus.</h5>
+                            <small class="text-muted">24/08/2015</small>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="image-container">
+                        <div class="image">
+                            <img src="/img/Photos/4.jpg" alt="">
+                                </div>
+                        <div class="btn-list">
+                            <a href="view_photo.html" class="btn btn-white btn-xs"><i class="fa fa-search-plus"></i></a>
+                        </div>
+                        <div class="info">
+                            <h5>Quisque a eleifend est, quis accumsan metus.</h5>
+                            <small class="text-muted">24/08/2015</small>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="image-container">
+                        <div class="image">
+                            <img src="/img/Photos/5.jpg" alt="">
+                                </div>
+                        <div class="btn-list">
+                            <a href="view_photo.html" class="btn btn-white btn-xs"><i class="fa fa-search-plus"></i></a>
+                        </div>
+                        <div class="info">
+                            <h5>Quisque a eleifend est, quis accumsan metus.</h5>
+                            <small class="text-muted">24/08/2015</small>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="image-container">
+                        <div class="image">
+                            <img src="/img/Photos/6.jpg" alt="">
+                                </div>
+                        <div class="btn-list">
+                            <a href="view_photo.html" class="btn btn-white btn-xs"><i class="fa fa-search-plus"></i></a>
+                        </div>
+                        <div class="info">
+                            <h5>Quisque a eleifend est, quis accumsan metus.</h5>
+                            <small class="text-muted">24/08/2015</small>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="image-container">
+                        <div class="image">
+                            <img src="/img/Photos/7.jpg" alt="">
+                                </div>
+                        <div class="btn-list">
+                            <a href="view_photo.html" class="btn btn-white btn-xs"><i class="fa fa-search-plus"></i></a>
+                        </div>
+                        <div class="info">
+                            <h5>Quisque a eleifend est, quis accumsan metus.</h5>
+                            <small class="text-muted">24/08/2015</small>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="image-container">
+                        <div class="image">
+                            <img src="/img/Photos/8.jpg" alt="">
+                                </div>
+                        <div class="btn-list">
+                            <a href="view_photo.html" class="btn btn-white btn-xs"><i class="fa fa-search-plus"></i></a>
+                        </div>
+                        <div class="info">
+                            <h5>Quisque a eleifend est, quis accumsan metus.</h5>
+                            <small class="text-muted">24/08/2015</small>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="image-container">
+                        <div class="image">
+                            <img src="/img/Photos/9.jpg" alt="">
+                                </div>
+                        <div class="btn-list">
+                            <a href="view_photo.html" class="btn btn-white btn-xs"><i class="fa fa-search-plus"></i></a>
+                        </div>
+                        <div class="info">
+                            <h5>Quisque a eleifend est, quis accumsan metus.</h5>
+                            <small class="text-muted">24/08/2015</small>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="image-container">
+                        <div class="image">
+                            <img src="/img/Photos/1.jpg" alt="">
+                                </div>
+                        <div class="btn-list">
+                            <a href="view_photo.html" class="btn btn-white btn-xs"><i class="fa fa-search-plus"></i></a>
+                        </div>
+                        <div class="info">
+                            <h5>Quisque a eleifend est, quis accumsan metus.</h5>
+                            <small class="text-muted">24/08/2015</small>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="image-container">
+                        <div class="image">
+                            <img src="/img/Photos/2.jpg" alt="">
+                                </div>
+                        <div class="btn-list">
+                            <a href="view_photo.html" class="btn btn-white btn-xs"><i class="fa fa-search-plus"></i></a>
+                        </div>
+                        <div class="info">
+                            <h5>Quisque a eleifend est, quis accumsan metus.</h5>
+                            <small class="text-muted">24/08/2015</small>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="image-container">
+                        <div class="image">
+                            <img src="/img/Photos/3.jpg" alt="">
+                                </div>
+                        <div class="btn-list">
+                            <a href="view_photo.html" class="btn btn-white btn-xs"><i class="fa fa-search-plus"></i></a>
+                        </div>
+                        <div class="info">
+                            <h5>Quisque a eleifend est, quis accumsan metus.</h5>
+                            <small class="text-muted">24/08/2015</small>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="image-container">
+                        <div class="image">
+                            <img src="/img/Photos/4.jpg" alt="">
+                                </div>
+                        <div class="btn-list">
+                            <a href="view_photo.html" class="btn btn-white btn-xs"><i class="fa fa-search-plus"></i></a>
+                        </div>
+                        <div class="info">
+                            <h5>Quisque a eleifend est, quis accumsan metus.</h5>
+                            <small class="text-muted">24/08/2015</small>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="image-container">
+                        <div class="image">
+                            <img src="/img/Photos/5.jpg" alt="">
+                                </div>
+                        <div class="btn-list">
+                            <a href="view_photo.html" class="btn btn-white btn-xs"><i class="fa fa-search-plus"></i></a>
+                        </div>
+                        <div class="info">
+                            <h5>Quisque a eleifend est, quis accumsan metus.</h5>
+                            <small class="text-muted">24/08/2015</small>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="image-container">
+                        <div class="image">
+                            <img src="/img/Photos/6.jpg" alt="">
+                                </div>
+                        <div class="btn-list">
+                            <a href="view_photo.html" class="btn btn-white btn-xs"><i class="fa fa-search-plus"></i></a>
+                        </div>
+                        <div class="info">
+                            <h5>Quisque a eleifend est, quis accumsan metus.</h5>
+                            <small class="text-muted">24/08/2015</small>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div><!-- end photos -->
