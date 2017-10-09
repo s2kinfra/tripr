@@ -1,4 +1,4 @@
-#extend("base")
+#extend("CrossApplication/base")
 #export("body") {
 
       <div class="row">
