@@ -20,8 +20,7 @@ final class RoutesView: RouteCollection {
             // root
             builder.get("") { req in
                 if req.auth.isAuthenticated(User.self) {
-//                    let user = try req.user()
-                    return try self.viewFactory.renderView(path: "home_timeline", request: req)
+                    return try self.viewFactory.renderView(path: "Home/home", request: req, parameters:  ["timeline" : try req.user().getFeedObjects(limit: 20) ])
                 }
                 return try self.viewFactory.renderView(path: "index", request: req)
             }

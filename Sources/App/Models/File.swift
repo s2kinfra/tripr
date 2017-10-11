@@ -52,7 +52,7 @@ final class File : Model {
     }
     
     
-    init(name _name : String, path _path : String, absolutePath: String, user_id : Identifier, type: fileType) throws {
+    init(name _name : String, path _path : String, absolutePath: String, user_id : Identifier, type: fileType) {
         self.name = _name
         self.path = _path
         self.absolutePath = absolutePath
@@ -106,7 +106,7 @@ extension File: JSONConvertible {
         try json.set("userId", uploadedBy)
         try json.set("path", path)
         try json.set("absolutePath", absolutePath)
-        try json.set("filetype", type)
+        try json.set("filetype", type.rawValue)
         return json
     }
 }

@@ -8,12 +8,16 @@
 import Foundation
 
 extension User: Feedable {
-    func getFeedObjects() throws -> [Feed] {
-        var feed = [Feed]()
-        for user in self.following{
-            
+    
+    func getFeedObjects(limit _limit : Int = 10) throws -> [Feed] {
+        var following = [Identifier]()
+        for follow in self.following {
+            following.append(follow.id!)
         }
-        
+        following.append(self.id!)
+        let feed = try self.fetchFeedObjects(createdBy: following, limit: _limit)
         return feed
     }
 }
+
+

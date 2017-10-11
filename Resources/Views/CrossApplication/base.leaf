@@ -1,13 +1,8 @@
 <!DOCTYPE html>
 <html>
 
-    #embed("CrossApplication/navbar")
-<body class="animated fadeIn">
-
-
-<!-- Begin page content -->
-<div class="container page-content ">
-#embed("flash")
-    #import("body")
+#embed("CrossApplication/navbar")
+#embed("CrossApplication/flash")
+#import("body")
 
 </html>

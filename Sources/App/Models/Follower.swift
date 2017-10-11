@@ -8,19 +8,26 @@
 import Vapor
 import FluentProvider
 
-final class Follow : Model {
+final class Follow : Model, ObjectIdentifiable{
+    var objectIdentifier: Identifier {
+        get {
+            return self.id!
+        }
+    }
+    
     var storage : Storage = Storage()
     
     var object : String
     var objectId : Identifier
     var follower : Identifier
-    var accpeted : Bool = false
+    var accepted : Bool = false
     
-    init(object _object : String , objectId _objectId : Identifier, follower _follower: Identifier)
+    init(object _object : String , objectId _objectId : Identifier, follower _follower: Identifier, accepted _accepted : Bool = false)
     {
         self.object = _object
         self.objectId = _objectId
         self.follower = _follower
+        self.accepted = _accepted
     }
     
     func makeRow() throws -> Row {
@@ -28,7 +35,7 @@ final class Follow : Model {
         try row.set("object", object)
         try row.set("objectId", objectId)
         try row.set("follower", follower)
-        try row.set("accepted", accpeted)
+        try row.set("accepted", accepted)
         return row
     }
     
@@ -36,7 +43,7 @@ final class Follow : Model {
         object = try row.get("object")
         objectId = try row.get("objectId")
         follower = try row.get("follower")
-        accpeted = try row.get("accepted")
+        accepted = try row.get("accepted")
     }
     
     func getFollowerUser() throws -> User {
@@ -47,7 +54,26 @@ final class Follow : Model {
     }
 }
 
-
+extension Follow: JSONConvertible {
+    convenience init(json: JSON) throws {
+        self.init(object: try json.get("object"),
+                  objectId: try json.get("objectId"),
+                  follower: try json.get("follower"),
+                  accepted: try json.get("accepted")
+            
+        )
+    }
+    
+    func makeJSON() throws -> JSON {
+        var json = JSON()
+        try json.set("object", object)
+        try json.set("objectId", objectId)
+        try json.set("follower", follower)
+        try json.set("accepted", accepted)
+        return json
+    }
+    
+}
 extension Follow: Preparation {
     /// Prepares a table/collection in the database
     /// for storing Posts
@@ -59,6 +85,8 @@ extension Follow: Preparation {
             builder.foreignId(for: User.self, optional: false, unique: false, foreignIdKey: "follower", foreignKeyName: "follow_follower")
             builder.bool("accepted")
         }
+        
+        try database.raw("ALTER TABLE `follows` ADD UNIQUE INDEX `ix_follow` (`object`, `objectId`, `follower`);")
     }
     
     /// Undoes what was done in `prepare`

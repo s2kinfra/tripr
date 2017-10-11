@@ -17,6 +17,6 @@ protocol Temperaturable : ObjectIdentifiable {
 extension Temperaturable {
     
     func addCurrentTemperature() {
-        let temp = Temperature.init(object: self.objectType, objectId: self.objectIdentifier)
+//        let temp = Temperature.init(object: self.objectType, objectId: self.objectIdentifier)
     }
 }

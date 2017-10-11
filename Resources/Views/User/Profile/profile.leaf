@@ -1,0 +1,120 @@
+#extend("CrossApplication/base")
+#export("body") {
+
+<!--
+ Description of template
+ *******************************
+ Display profile of user
+ 
+ 
+ ------------------------------
+ Parameters required
+ ******************************
+ 
+ user = User
+ timeline = [Feed]
+ followers = user.followers
+ following = user.following
+ 
+ ------------------------------
+ -->
+
+<div class="container page-content">
+    <div class="row">
+        <div class="col-md-10 col-md-offset-1">
+            <div class="user-profile">
+                <div class="profile-header-background">
+                    <img src="img/Cover/game.jpg" alt="Profile Header Background">
+                        </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="profile-info-left">
+                            <div class="text-center">
+                                <img src="#(profile.profilePicture.path)" alt="Avatar" class="avatar img-circle" height=150px width=150px>
+                                    <h2>#(profile.firstName) #(profile.lastName)</h2>
+                                    </div>
+                            <div class="action-buttons">
+                                <div class="row">
+                                    #equal(user.id, profile.id) { }
+                                    ##else() {
+                                        #isFollowing(user.id, profile.id) {
+                                        <div class="col-xs-6">
+                                            <a href="/#(profile.username)/unfollow" class="btn btn-danger btn-block"><i class="fa fa-user-times"></i> Stop Follow</a>
+                                        </div>
+                                        }
+                                        ##else() {
+                                            #isRequestingFollow(user.id, profile.id) {
+                                            <div class="col-xs-6">
+                                                <a href="/#(profile.username)/cancelfollow" class="btn btn-danger btn-block"><i class="fa fa-user-times"></i> Cancel Request</a>
+                                            </div>
+                                            } ##isRequestingFollow(profile.id,user.id) {
+                                                <div class="col-xs-6">
+                                                    <a href="/#(profile.username)/acceptfollow" class="btn btn-success btn-block"><i class="fa fa-user-times"></i> Accept Request</a>
+                                                </div>
+                                            }
+                                            ##else() {
+                                                <div class="col-xs-6">
+                                                    <a href="/#(profile.username)/follow" class="btn btn-azure btn-block"><i class="fa fa-user-plus"></i> Follow</a>
+                                                </div>
+                                            }
+                                        }
+                                        <div class="col-xs-6">
+                                            <a href="#()" class="btn btn-azure btn-block"><i class="fa fa-envelope"></i> Message</a>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                            <div class="section">
+                                <h3>About Me
+                                    #equal(user.id, profile.id) {
+                                        <a class="btn btn-default btn-sm shiny icon-only danger pull-right" href="/#(profile.username)/edit">
+                                            <i class="fa fa-pencil"></i>
+                                        </a>
+                                    }
+                                </h3>
+                                
+                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut sed ullamcorper ligula. Curabitur in sapien sed risus finibus condimentum et ac quam. Quisque eleifend, lacus ut commodo pulvinar, elit augue eleifend leo, eget suscipit augue erat id orci. .</p>
+                            </div>
+                            <div class="section">
+                                <h3>Statistics</h3>
+                                <p><span class="badge">#count(profile.following)</span> Following</p>
+                                <p><span class="badge">#count(profile.followers)</span> Followers</p>
+                                <p><span class="badge">620</span> Trips</p>
+                            </div>
+                            <div class="section">
+                                <h3>Social</h3>
+                                <ul class="list-unstyled list-social">
+                                    <li><a href="#()"><i class="fa fa-twitter"></i> @jhongrwo</a></li>
+                                    <li><a href="#()"><i class="fa fa-facebook"></i> John grow</a></li>
+                                    <li><a href="#()"><i class="fa fa-dribbble"></i> johninizzie</a></li>
+                                    <li><a href="#()"><i class="fa fa-linkedin"></i> John grow</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="profile-info-right">
+                            <ul class="nav nav-pills nav-pills-custom-minimal custom-minimal-bottom">
+                                <li class="active"><a href="#()timeline" data-toggle="tab">Timeline</a></li>
+                                <li><a href="#()followers" data-toggle="tab">Followers</a></li>
+                                <li><a href="#()following" data-toggle="tab">Following</a></li>
+                            </ul>
+                            <div class="tab-content">
+                                <!-- activities -->
+                                #embed("User/Profile/profile_timeline")
+                                <!-- end activities -->
+                                <!-- followers -->
+                                #embed("User/Profile/profile_followers")
+                                <!-- end followers -->
+                                <!-- following -->
+                                #embed("User/Profile/profile_following")
+                                <!-- end following -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+}

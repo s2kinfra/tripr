@@ -19,6 +19,9 @@ extension User : Model {
         let passwordAsString: String = try row.get("password")
         password = passwordAsString.makeBytes()
         id = try row.get(idKey)
+        firstName = try row.get("firstName")
+        lastName = try row.get("lastName")
+        _profilePicture = try row.get("profilePicture")
     }
     
     // Serializes the Post to the database
@@ -27,7 +30,10 @@ extension User : Model {
         try row.set("username", username)
         try row.set("email", email)
         try row.set("password", password.makeString())
+        try row.set("firstName", firstName)
+        try row.set("lastName", lastName)
         try row.set("id", id)
+        try row.set("profilePicture", _profilePicture)
         return row
     }
     
@@ -65,6 +71,9 @@ extension User: Preparation {
             builder.string("username", optional: false, unique: true)
             builder.string("email", optional: false, unique: true)
             builder.bytes("password", optional : false, unique: false)
+            builder.string("firstName", optional : true, unique: false)
+            builder.string("lastName", optional : true, unique: false)
+            builder.int("profilePicture",optional : true, unique: false)
         }
         try database.index("username", for: User.self)
         try database.index("email", for: User.self)

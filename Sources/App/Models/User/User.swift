@@ -13,18 +13,42 @@ final class User {
     
     var username: String = ""
     var email : String = ""
+    var firstName : String = ""
+    var lastName : String = ""
     var password : Bytes
-    var profilePicture : File?
+    var _profilePicture : Identifier?
     
-    init(username _username : String, email _email: String, password _password : Bytes) {
+    var profilePicture : File {
+        get {
+            guard let fileId = self._profilePicture else {
+                
+             let workDir = Config.workingDirectory()
+                let file = File.init(name: "defaultProfilePicture", path: "/img/profile/default-avatar.png", absolutePath: "\(workDir)public/img/profile/profile.png", user_id: self.id!, type: .image)
+                return file
+            }
+            guard let file = try? File.find(fileId)! else {
+                let workDir = Config.workingDirectory()
+                let file = File.init(name: "defaultProfilePicture", path: "/img/profile/default-avatar.png", absolutePath: "\(workDir)public/img/profile/default-avatar.png", user_id: self.id!, type: .image)
+                return file
+            }
+            
+            return file
+        }
+    }
+    init(username _username : String, email _email: String, password _password : Bytes, profilePicture _profilepic : Identifier? = nil, firstName _first : String, lastName _last : String) {
         username = _username
         email = _email
         password = _password
+        firstName = _first
+        lastName = _last
+        _profilePicture = _profilepic
     }
     
     init() {
         password = []
     }
+    
+    
     
 }
 

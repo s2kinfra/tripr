@@ -20,14 +20,20 @@
                                    <input type="email" name="email" class="form-control" placeholder="Email">
                                        </div>
                                <div class="form-group">
+                                   <input type="text" name="firstName" class="form-control" placeholder="Firstname">
+                                       </div>
+                               <div class="form-group">
+                                   <input type="text" name="lastName" class="form-control" placeholder="Lastname">
+                                       </div>
+                               <div class="form-group">
                                    <input type="password" name="password" class="form-control" placeholder="Password">
-                                       <a href="/" class="pull-xs-right">
-                                           <small>Already have an account? Login..</small>
-                                       </a>
                                        <div class="clearfix"></div>
                                        </div>
                                
                                <button type="submit" class="btn btn-azure">Register</button>
+                               <div class="clearfix"></div>
+                               <p></p>
+                               <small>Already have an account? <a href="/" class="pull-xs-right">Login!</a></small>
                            </form>
                        </div>
                    </div>

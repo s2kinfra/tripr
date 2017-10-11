@@ -50,9 +50,43 @@ extension Followable {
         }
     }
     
+    var followingRequests : [Follow] {
+        get {
+            do {
+                let following = try Follow.makeQuery().and { andGroup in
+                    try andGroup.filter("object", .equals, objectType)
+                    try andGroup.filter("follower", .equals, objectIdentifier)
+                    try andGroup.filter("accepted", .equals, false)
+                    }.all()
+                return following
+            }catch {
+                return [Follow]()
+            }
+        }
+    }
+    
+    var followerRequest : [Follow] {
+        get {
+            do {
+                let follower = try Follow.makeQuery().and { andGroup in
+                    try andGroup.filter("object", .equals, self.objectType)
+                    try andGroup.filter("objectId", .equals, self.objectIdentifier)
+                    try andGroup.filter("accepted", .equals, false)
+                    }.all()
+                return follower
+            }catch {
+                return [Follow]()
+            }
+        }
+    }
+    
     func startFollowing(by : Identifier) throws {
         let follow = Follow.init(object: objectType, objectId: objectIdentifier, follower: by)
         try follow.save()
+        let notif = Notification.init(relatedObject: String(describing: follow), relatedObjectId: follow.id!, receiver: objectIdentifier, sender: by)
+        try notif.save()
+        try Feed.createNewFeed(createdBy: by, feedText: "\(String(describing: by.int)) is requesting to follow \(String(describing: objectIdentifier.int))", feedObject: objectType, feedObjectId: objectIdentifier, feedType: .followRequest)
+        
     }
     
     func stopFollowing(by : Identifier) throws {
@@ -63,7 +97,8 @@ extension Followable {
             try andGroup.filter("accepted", .equals, true)
         }).first() else {
             //            TODO: throw!
-            return
+            let error = Abort.init(.badRequest, metadata: by.makeNode(in: nil), reason: "Follow not found")
+            throw error
         }
         try follow.delete()
     }
@@ -79,8 +114,9 @@ extension Followable {
             let error = Abort.init(.badRequest, metadata: follower.makeNode(in: nil), reason: "Follow request not found")
             throw error
         }
-        follow.accpeted = true
+        follow.accepted = true
         try follow.save()
+        try Feed.createNewFeed(createdBy: follower, feedText: "\(String(describing: follower.int)) is now following \(String(describing: objectIdentifier.int))", feedObject: objectType, feedObjectId: objectIdentifier, feedType: .followAccepted)
     }
     
     func declineFollow(follower: Identifier) throws {

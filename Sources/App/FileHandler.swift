@@ -42,9 +42,9 @@ class FileHandler {
         try Data(file.part.body).write(to: URL(fileURLWithPath: "\(workDir)public/uploads/\(user.username)/\(fileName)"))
         
         
-//        let fileModel = try FileModel.init(name: fileName, path: "/uploads/\(user.username)/\(fileName)", absolutePath: "\(workDir)public/uploads/\(user.username)/\(fileName)", user_id: user.id!, type: fileType.image)
-//
-//        try fileModel.save()
+        let fileModel = File.init(name: fileName, path: "/uploads/\(user.username)/\(fileName)", absolutePath: "\(workDir)public/uploads/\(user.username)/\(fileName)", user_id: user.id!, type: .image)
+        
+        try fileModel.save()
         
     }
     

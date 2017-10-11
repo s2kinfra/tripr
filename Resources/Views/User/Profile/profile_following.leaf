@@ -1,0 +1,17 @@
+
+<div class="tab-pane fade" id="following">
+    #loop(profile.following, "follow") {
+        #user(follow.objectId, "followUser") {
+        <div class="media user-following">
+            <img src="#(profile.profilePicture.path)" alt="User Avatar" class="media-object pull-left">
+                <div class="media-body">
+                    <a href="/#(followUser.username)">#(followUser.firstName) #(followUser.lastName)<br><span class="text-muted username">@#(followUser.username)</span></a>
+                    <a href="/#(followUser.username)/unfollow"><button type="button" class="btn btn-sm btn-danger pull-right">
+                        <i class="fa fa-close-round"></i> Unfollow</button></a>
+                </div>
+        </div>
+        }
+    }
+    
+</div>
+

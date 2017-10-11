@@ -9,6 +9,6 @@ import Vapor
 import FluentProvider
 
 protocol Notifiable {
-    
+    func addNotification(from _from: Identifier, object _object: String, objectId _objectId : Identifier) throws
 }
 

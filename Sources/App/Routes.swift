@@ -12,7 +12,7 @@ final class Routes: RouteCollection {
         self.drop = drop
         self.viewFactory = LeafViewFactory(viewRenderer: drop.view)
         if let leaf = drop.view as? LeafRenderer {
-//            LeafSocialTags(stem:leaf.stem).registerSocialTags()
+            LeafFunctions(stem: leaf.stem).registerLeafFunctions()
         }
         
     }

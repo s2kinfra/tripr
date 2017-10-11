@@ -57,7 +57,7 @@ extension Config {
         preparations.append(File.self)
         preparations.append(Attachment.self)
         preparations.append(Destination.self)
-        preparations.append(FeedHandler.self)
+        preparations.append(Feed.self)
 //        preparations.append(Route.self)
     }
 }

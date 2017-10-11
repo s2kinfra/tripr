@@ -1,195 +1,242 @@
 #extend("CrossApplication/base")
 #export("body") {
-
-      <div class="row">
-        <!-- left links -->
-        <div class="col-md-3">
-          <div class="profile-nav">
-            <div class="widget">
-              <div class="widget-body">
-                <div class="user-heading round">
-                  <a href="/user/#(user.username)/profile">
-                      <img src="#(user.profileImage.path)" alt="">
-                  </a>
-                  <h1>#(user.firstname) #(user.lastname)</h1>
-                  <p>@#(user.username) </p>
-                </div>
-
-                <ul class="nav nav-pills nav-stacked">
-                    <li #import("timeline_active")><a href="/"> <i class="glyphicon glyphicon-road"></i> Timeline</a></li>
-                  <li #import("trips_active")>
-                    <a href="/user/#(user.username)/trips">
-                      <i class="glyphicon glyphicon-globe"></i> Trips
-                      <!--<span class="label label-info pull-right r-activity">9</span>-->
-                    </a>
-                  </li>
-                  <li #import("timeline_follows")><a href="#()"> <i class="glyphicon glyphicon-log-out"></i> Follows</a></li>
-                  <li #import("timeline_followers")><a href="#()"> <i class="glyphicon glyphicon-log-in"></i> Followers</a></li>
-                </ul>
-              </div>
-            </div>
-            <!--
-            <div class="widget">
-              <div class="widget-body">
-                <ul class="nav nav-pills nav-stacked">
-                  <li><a href="#()"> <i class="fa fa-globe"></i> Pages</a></li>
-                  <li><a href="#()"> <i class="fa fa-gamepad"></i> Games</a></li>
-                  <li><a href="#()"> <i class="fa fa-puzzle-piece"></i> Ads</a></li>
-                  <li><a href="#()"> <i class="fa fa-home"></i> Markerplace</a></li>
-                  <li><a href="#()"> <i class="fa fa-users"></i> Groups</a></li>
-                </ul>
-              </div>
-            </div>-->
-          </div>
-        </div><!-- end left links -->
-
-
-        <!-- center posts -->
-        #import("home_center")
-
-        <!-- right posts -->
-        <div class="col-md-3">
-            <!-- Followers -->
-            <div class="widget">
-                <div class="widget-header">
-                    
-                    <h3 class="widget-caption">Followers :</h3> <span class="label label-info pull-right r-activity">#count(_followers)</span>
-                </div>
-                <div class="widget-body bordered-top bordered-sky">
-                    <div class="card">
-                        <div class="content">
-                            <ul class="list-unstyled team-members">
-                                #loop(_followers, "follower" ) {
-                                <li>
-                                    <div class="row">
-                                        <div class="col-xs-3">
-                                            <div class="avatar">
-                                                <img src="#(follower.profileImage.path)" alt="Circle Image" class="img-circle img-no-padding img-responsive">
-                                                    </div>
-                                        </div>
-                                        <div class="col-xs-6">
-                                            <a href="/user/#(follower.username)/profile">#(follower.firstname) #(follower.lastname)</a>
-                                            #isFollowing(user.id,follower.id) { } ##isRequestingFollow(user.id,follower.id) { } ##else() {
-                                            <p>
-                                            <a href="/user/#(follower.id)/follow" class="btn btn-azure">
-                                                Follow
-                                            </a>
-                                            </p>
-                                            }
-                                        </div>
-                                    </div>
-                                </li>
-                                }
-                            </ul>
+<div class="container page-content ">
+    <div class="row">
+        <div class="col-md-10 col-md-offset-1">
+            <div class="col-inside-lg decor-default activities animated fadeInUp" id="activities">
+                <h6>Timeline</h6>
+                #if(timeline) {
+                    Timeline entries
+                    <div class="unit">
+                        <a class="avatar" href="#"><img src="img/Friends/child-1.jpg" class="img-responsive" alt="profile"></a>
+                        <div class="field title">
+                            <a href="#">Alexander Herthic</a> started following <a href="#">Katya Angintiew</a>
                         </div>
-                    </div>          
+                        <div class="field date">
+                            <span class="f-l">Today 6:15 pm - 22.03 2015</span>
+                            <span class="f-r color-success">5 min ago</span>
+                        </div>
+                        <div class="field btn-group-xs f-l">
+                            <button type="button" class="btn btn-lg-xs btn-xs-like">View</button>
+                            <button type="button" class="btn btn-lg-xs btn-xs-love">Delete</button>
+                        </div>
+                    </div>
+                } #else() {
+                    There is no activities on your timeline :/
+                }
+                <!--<div class="unit">
+                    <a class="avatar" href="#"><img src="img/Friends/child-1.jpg" class="img-responsive" alt="profile"></a>
+                    <div class="field title">
+                        <a href="#">Alexander Herthic</a> started following <a href="#">Katya Angintiew</a>
+                    </div>
+                    <div class="field date">
+                        <span class="f-l">Today 6:15 pm - 22.03 2015</span>
+                        <span class="f-r color-success">5 min ago</span>
+                    </div>
+                    <div class="field btn-group-xs f-l">
+                        <button type="button" class="btn btn-lg-xs btn-xs-like">View</button>
+                        <button type="button" class="btn btn-lg-xs btn-xs-love">Delete</button>
+                    </div>
                 </div>
-            </div><!-- Followers -->
-            
-          <!-- Friends activity -->
-          <div class="widget">
-            <div class="widget-header">
-              <h3 class="widget-caption">Follow Requests</h3><span class="label label-info pull-right r-activity">#count(user.followersRequests)</span>
-            </div>
-            <div class="widget-body bordered-top bordered-sky">
-              <div class="card">
-                <div class="content">
-                   <ul class="list-unstyled team-members">
-                       #followerRequests(user.id, "follower" ) {
-                       <li>
-                           <div class="row">
-                               <div class="col-xs-3">
-                                   <div class="avatar">
-                                       <img src="#(follower.profileImage.path)" alt="img" class="img-circle img-no-padding img-responsive">
-                                           </div>
-                               </div>
-                               <div class="col-xs-9">
-                                   <b><a href="/user/profile/#(follower.id)">#(follower.firstname) #(follower.lastname)</a> requested to follow </b>
-                                  
-                                   <!--<span class="timeago" >5 min ago</span>-->
-                                   <p>
-                                      <p>  <a href="/user/#(user.username)/request/#(follower.username)/accept" class="btn btn-azure">
-                                          Accept
-                                        </a></p>
-                                    </p>
-                               </div>
-                           </div>
-                       </li>
-
-                       }
-                    </ul>
+                <div class="unit">
+                    <a class="avatar" href="#"><img src="img/Friends/child-1.jpg" class="img-responsive" alt="profile"></a>
+                    <div class="field title">
+                        <a href="#">Katya Angintiew</a> posted a new blog
+                    </div>
+                    <div class="field date">
+                        <span class="f-l">Today 5:60 pm - 12.06.2016</span>
+                        <span class="f-r">15 min ago</span>
+                    </div>
                 </div>
-              </div>
+                <div class="unit">
+                    <a class="avatar" href="#"><img src="img/Friends/guy-2.jpg" class="img-responsive" alt="profile"></a>
+                    <div class="field title">
+                        <a href="#">Alexander Herthic</a> posted message on <a href="#">Monica Smith site</a>.
+                    </div>
+                    <div class="field date">
+                        <span class="f-l">Today 2:10 pm - 12.06.2015</span>
+                        <span class="f-r">2h ago</span>
+                    </div>
+                    <div class="field">
+                        <p class="color-default decor-success">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s. Over the years, sometimes by accident, sometimes on purpose (injected humour and the like).</p>
+                    </div>
+                    <div class="field btn-group-xs f-r">
+                        <button type="button" class="btn btn-lg-xs btn-xs-like">View</button>
+                        <button type="button" class="btn btn-lg-xs btn-xs-love">Delete</button>
+                        <button type="button" class="btn btn-lg-xs btn-xs-msg">Message</button>
+                    </div>
+                </div>
+                <div class="unit">
+                    <div class="field title">
+                        <a href="#">Katya Angintiew</a> add 1 photo on <a href="#">Monica Smith site</a>.
+                    </div>
+                    <div class="field date">
+                        <span class="f-l">Today 5:60 pm - 12.06.2016</span>
+                        <span class="f-r">15 min ago</span>
+                    </div>
+                    <div class="field photo">
+                        <img src="http://lorempixel.com/266/200/nature/5/" alt="profile">
+                            <img src="http://lorempixel.com/266/200/nature/1/" alt="profile">
+                                <img src="http://lorempixel.com/266/200/nature/2/" alt="profile">
+                                    </div>
+                </div>
+                <div class="unit">
+                    <a class="avatar" href="#"><img src="img/Friends/guy-4.jpg" class="img-responsive" alt="profile"></a>
+                    <div class="field title">
+                        <a href="#">Alexander Herthic</a> posted message on <a href="#">Monica Smith site</a>.
+                    </div>
+                    <div class="field date">
+                        <span class="f-l">Today 2:10 pm - 12.06.2015</span>
+                        <span class="f-r color-success">2h ago</span>
+                    </div>
+                    <div class="field btn-group-xs f-l">
+                        <button type="button" class="btn btn-lg-xs btn-xs-like">View</button>
+                        <button type="button" class="btn btn-lg-xs btn-xs-love">Delete</button>
+                    </div>
+                </div>
+                <div class="unit">
+                    <a class="avatar" href="#"><img src="img/Friends/child-1.jpg" class="img-responsive" alt="profile"></a>
+                    <div class="field title">
+                        <a href="#">Alexander Herthic</a> posted message on <a href="#">Monica Smith site</a>.
+                    </div>
+                    <div class="field date">
+                        <span class="f-l">Today 2:10 pm - 12.06.2015</span>
+                        <span class="f-r">2h ago</span>
+                    </div>
+                    <div class="field">
+                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s. Over the years, sometimes by accident, sometimes on purpose (injected humour and the like).</p>
+                    </div>
+                    <div class="field btn-group-xs f-r">
+                        <button type="button" class="btn btn-lg-xs btn-xs-like">View</button>
+                        <button type="button" class="btn btn-lg-xs btn-xs-love">Delete</button>
+                    </div>
+                </div>
+                <div class="unit">
+                    <a class="avatar" href="#"><img src="img/Friends/guy-2.jpg" class="img-responsive" alt="profile"></a>
+                    <div class="field title">
+                        <a href="#">Katya Angintiew</a> posted a new blog
+                    </div>
+                    <div class="field date">
+                        <span class="f-l">Today 5:60 pm - 12.06.2016</span>
+                        <span class="f-r">15 min ago</span>
+                    </div>
+                </div>
+                <div class="unit">
+                    <a class="avatar" href="#"><img src="img/Friends/child-1.jpg" class="img-responsive" alt="profile"></a>
+                    <div class="field title">
+                        <a href="#">Katya Angintiew</a> posted a new blog
+                    </div>
+                    <div class="field date">
+                        <span class="f-l">Today 5:60 pm - 12.06.2016</span>
+                        <span class="f-r">15 min ago</span>
+                    </div>
+                </div>
+                <div class="unit">
+                    <a class="avatar" href="#"><img src="img/Friends/guy-2.jpg" class="img-responsive" alt="profile"></a>
+                    <div class="field title">
+                        <a href="#">Alexander Herthic</a> started following <a href="#">Katya Angintiew</a>
+                    </div>
+                    <div class="field date">
+                        <span class="f-l">Today 6:15 pm - 22.03 2015</span>
+                        <span class="f-r color-success">5 min ago</span>
+                    </div>
+                    <div class="field btn-group-xs f-l">
+                        <button type="button" class="btn btn-lg-xs btn-xs-like">View</button>
+                        <button type="button" class="btn btn-lg-xs btn-xs-love">Delete</button>
+                    </div>
+                </div>
+                <div class="unit">
+                    <a class="avatar" href="#"><img src="img/Friends/guy-3.jpg" class="img-responsive" alt="profile"></a>
+                    <div class="field title">
+                        <a href="#">Katya Angintiew</a> posted a new blog
+                    </div>
+                    <div class="field date">
+                        <span class="f-l">Today 5:60 pm - 12.06.2016</span>
+                        <span class="f-r">15 min ago</span>
+                    </div>
+                </div>
+                <div class="unit">
+                    <a class="avatar" href="#"><img src="img/Friends/guy-4.jpg" class="img-responsive" alt="profile"></a>
+                    <div class="field title">
+                        <a href="#">Alexander Herthic</a> posted message on <a href="#">Monica Smith site</a>.
+                    </div>
+                    <div class="field date">
+                        <span class="f-l">Today 2:10 pm - 12.06.2015</span>
+                        <span class="f-r">2h ago</span>
+                    </div>
+                    <div class="field">
+                        <p class="color-default decor-success">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s. Over the years, sometimes by accident, sometimes on purpose (injected humour and the like).</p>
+                    </div>
+                    <div class="field btn-group-xs f-r">
+                        <button type="button" class="btn btn-lg-xs btn-xs-like">View</button>
+                        <button type="button" class="btn btn-lg-xs btn-xs-love">Delete</button>
+                        <button type="button" class="btn btn-lg-xs btn-xs-msg">Message</button>
+                    </div>
+                </div>
+                <div class="unit">
+                    <div class="field title">
+                        <a href="#">Katya Angintiew</a> add 1 photo on <a href="#">Monica Smith site</a>.
+                    </div>
+                    <div class="field date">
+                        <span class="f-l">Today 5:60 pm - 12.06.2016</span>
+                        <span class="f-r">15 min ago</span>
+                    </div>
+                    <div class="field photo">
+                        <img src="img/Friends/child-1.jpg" class="img-responsive" alt="profile">
+                            </div>
+                </div>
+                <div class="unit">
+                    <a class="avatar" href="#"><img src="img/Friends/guy-4.jpg" class="img-responsive" alt="profile"></a>
+                    <div class="field title">
+                        <a href="#">Alexander Herthic</a> posted message on <a href="#">Monica Smith site</a>.
+                    </div>
+                    <div class="field date">
+                        <span class="f-l">Today 2:10 pm - 12.06.2015</span>
+                        <span class="f-r color-success">2h ago</span>
+                    </div>
+                    <div class="field btn-group-xs f-l">
+                        <button type="button" class="btn btn-lg-xs btn-xs-like">View</button>
+                        <button type="button" class="btn btn-lg-xs btn-xs-love">Delete</button>
+                    </div>
+                </div>
+                <div class="unit">
+                    <a class="avatar" href="#"><img src="img/Friends/child-1.jpg" class="img-responsive" alt="profile"></a>
+                    <div class="field title">
+                        <a href="#">Alexander Herthic</a> posted message on <a href="#">Monica Smith site</a>.
+                    </div>
+                    <div class="field date">
+                        <span class="f-l">Today 2:10 pm - 12.06.2015</span>
+                        <span class="f-r">2h ago</span>
+                    </div>
+                    <div class="field">
+                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s. Over the years, sometimes by accident, sometimes on purpose (injected humour and the like).</p>
+                    </div>
+                    <div class="field btn-group-xs f-r">
+                        <button type="button" class="btn btn-lg-xs btn-xs-love">Love</button>
+                    </div>
+                </div>
+                <div class="unit">
+                    <a class="avatar" href="#"><img src="img/Friends/guy-4.jpg" class="img-responsive" alt="profile"></a>
+                    <div class="field title">
+                        <a href="#">Katya Angintiew</a> posted a new blog
+                    </div>
+                    <div class="field date">
+                        <span class="f-l">Today 5:60 pm - 12.06.2016</span>
+                        <span class="f-r">15 min ago</span>
+                    </div>
+                </div>
+                <div class="unit">
+                    <a class="avatar" href="#"><img src="img/Friends/guy-5.jpg" class="img-responsive" alt="profile"></a>
+                    <div class="field title">
+                        <a href="#">Katya Angintiew</a> posted a new blog
+                    </div>
+                    <div class="field date">
+                        <span class="f-l">Today 5:60 pm - 12.06.2016</span>
+                        <span class="f-r">15 min ago</span>
+                    </div>
+                </div> -->
             </div>
-          </div><!-- End Friends activity -->
-
-          <!-- People You May Know -->
-          <div class="widget">
-            <div class="widget-header">
-              <h3 class="widget-caption">People You May Know</h3>
-            </div>
-            <div class="widget-body bordered-top bordered-sky">
-              <div class="card">
-                  <div class="content">
-                      <ul class="list-unstyled team-members">
-                          <li>
-                              <div class="row">
-                                  <div class="col-xs-3">
-                                      <div class="avatar">
-                                          <img src="img/Friends/guy-2.jpg" alt="Circle Image" class="img-circle img-no-padding img-responsive">
-                                      </div>
-                                  </div>
-                                  <div class="col-xs-6">
-                                     Carlos marthur
-                                  </div>
-                      
-                                  <div class="col-xs-3 text-right">
-                                      <btn class="btn btn-sm btn-azure btn-icon"><i class="fa fa-user-plus"></i></btn>
-                                  </div>
-                              </div>
-                          </li>
-                          <li>
-                              <div class="row">
-                                  <div class="col-xs-3">
-                                      <div class="avatar">
-                                          <img src="img/Friends/woman-1.jpg" alt="Circle Image" class="img-circle img-no-padding img-responsive">
-                                      </div>
-                                  </div>
-                                  <div class="col-xs-6">
-                                      Maria gustami
-                                  </div>
-                      
-                                  <div class="col-xs-3 text-right">
-                                      <btn class="btn btn-sm btn-azure btn-icon"><i class="fa fa-user-plus"></i></btn>
-                                  </div>
-                              </div>
-                          </li>
-                          <li>
-                              <div class="row">
-                                  <div class="col-xs-3">
-                                      <div class="avatar">
-                                          <img src="img/Friends/woman-2.jpg" alt="Circle Image" class="img-circle img-no-padding img-responsive">
-                                      </div>
-                                  </div>
-                                  <div class="col-xs-6">
-                                      Angellina mcblown
-                                  </div>
-                      
-                                  <div class="col-xs-3 text-right">
-                                      <btn class="btn btn-sm btn-azure btn-icon"><i class="fa fa-user-plus"></i></btn>
-                                  </div>
-                              </div>
-                          </li>
-                      </ul>
-                  </div>
-              </div>          
-            </div>
-          </div><!-- End people yout may know --> 
-        </div><!-- end right posts -->
-      </div>
+        </div>
     </div>
-
-   
-  </body>
-  
+</div>
   }
