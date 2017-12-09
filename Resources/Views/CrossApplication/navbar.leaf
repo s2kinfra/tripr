@@ -10,8 +10,14 @@
 <title>Tripr</title>
 <!-- Bootstrap core CSS -->
 
-<!--<link href="/font-awesome.4.6.1/css/font-awesome.min.css" rel="stylesheet">-->
+<link href="/font-awesome.4.6.1/css/font-awesome.min.css" rel="stylesheet">
+<!--BOOTSTRAP 4
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
+-->
 <link href="/bootstrap.3.3.6/css/bootstrap.min.css" rel="stylesheet">
 <link href="/assets/css/animate.min.css" rel="stylesheet">
 <link href="/assets/css/timeline.css" rel="stylesheet">
@@ -24,86 +30,222 @@
 <link href="/assets/css/profile3.css" rel="stylesheet">
 <link href="/assets/css/friends.css" rel="stylesheet">
 <link href="/assets/css/photos3.css" rel="stylesheet">
+<link href="/assets/css/bootstrap-notifications.css" rel="stylesheet">
 <link href="/assets/css/file_manager.css" rel="stylesheet">
 <link href="/assets/css/photos1.css" rel="stylesheet">
 <link href="/assets/css/people_directory.css" rel="stylesheet">
 <link href="/assets/css/list_posts.css" rel="stylesheet">
 <link href="/assets/css/friends2.css" rel="stylesheet">
+<link href="/assets/css/edit_profile.css" rel="stylesheet">
+<link href="/assets/css/grid_posts.css" rel="stylesheet">
 <link href="/assets/css/sidebar_profile.css" rel="stylesheet">
+<link href="/assets/css/profile_wall.css" rel="stylesheet">
+<link href="/assets/css/messages1.css" rel="stylesheet">
 <script src="/assets/js/jquery.1.11.1.min.js"></script>
 <script src="/bootstrap.3.3.6/js/bootstrap.min.js"></script>
 <script src="/assets/js/custom.js"></script>
+<script src="/assets/js/grid_posts.js"></script>
 
+<link href="/assets/selectize/css/selectize.bootstrap3.css" rel="stylesheet">
+<script type="text/javascript" src="/assets/selectize/js/standalone/selectize.min.js"></script>
 <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
 <!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
 </head>
+<style>
+    img.searchIcon {
+        width:20px;
+        height:20px;
+    }
 
-<!-- Fixed navbar -->
-<nav class="navbar navbar-white navbar-fixed-top">
+    img.notif {
+        width:50px;
+        height:50px;
+    }
+
+    #()navBarSearchForm input[type=text]{width:430px !important;}
+    #()navBarSearchForm{
+        display:block;
+        text-align:center;
+    }
+}
+</style>
+
+<div class="navbar navbar-white navbar-fixed-top">
     <div class="container">
         <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#()navbar" aria-expanded="false" aria-controls="navbar">
-                <span class="sr-only">Toggle navigation</span>
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="/"><b>Tripr</b> -  <small>Social traveling</small></a>
-            
+            <a class="navbar-brand" href="/"><b>Tripr</b></a>
         </div>
-        #if(user.id) {
-       
-        <div id="navbar" class="navbar-collapse collapse">
+        <div class="navbar-collapse collapse">
+             #if(user.id) {
+             <ul class="nav navbar-nav">
+                 <li class="dropdown dropdown-notifications">
+                     <a href="#()notifications-panel" class="dropdown-toggle" data-toggle="dropdown">
+                         <i data-count="#count(user.unreadNotifications)" class="glyphicon glyphicon-bell notification-icon"></i>
+                     </a>
+                     
+                     <div class="dropdown-container">
+                         
+                         <div class="dropdown-toolbar">
+                             <div class="dropdown-toolbar-actions">
+                                 <a href="#()">Mark all as read</a>
+                             </div>
+                             <h3 class="dropdown-toolbar-title">Notifications (#count(user.notifications))</h3>
+                         </div><!-- /dropdown-toolbar -->
+                         
+                         <ul class="dropdown-menu chat">
+                             #loop(user.notifications,"selected_notif") {
+                                 <li class="left clearfix">
+                                     <span class="chat-img pull-left">
+                                         #user(selected_notif.sender,"sender") {
+                                         <a href="#(sender.username)"><img src="#(sender.profilePicture.path)" class="notif" alt="#(sender.username)"></a>
+                                             </span>
+                                     
+                                     <div class="chat-body clearfix">
+                                         <div class="header">
+                                             <strong class="primary-font"><a href="#(sender.username)">#(sender.fullname)</a></strong>
+                                             <small class="pull-right text-muted"><i class="fa fa-clock-o"></i> #timeago(selected_notif.createdAt)</small>
+                                         </div>
+                                         <p>
+                                         <small>#html(selected_notif.comment){ }</small>
+                                         </p>
+                                     </div>
+                                     }
+                                 </li>
+                             }
+                         </ul>
+                         
+                         <div class="dropdown-footer text-center">
+                             <a href="#()">View All</a>
+                         </div><!-- /dropdown-footer -->
+                         
+                     </div><!-- /dropdown-container -->
+                 </li><!-- /dropdown -->
+             </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li class="actives"><a href="/user/#(user.username)/trip/create"><i class="glyphicon glyphicon-globe"></i></a></li>
-                <li class="actives"><a href="/#(user.username)"><i class="glyphicon glyphicon-user"></i></a></li>
-                <li><a href="/"><i class="glyphicon glyphicon-home"></i></a></li>
-                <li><a href="/user/notification/#(user._id)"><i class="glyphicon glyphicon-bell"></i>
-                    <small class="chat-alert label label-danger"></small>
-                </a></li>
                 <li class="dropdown">
                     <a href="#()" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
                         <i class="glyphicon glyphicon-user"></i> <span class="caret"></span>
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a href="/user/logout">Logout</a></li>
-                        <li><a href="profile2.html">Profile 2</a></li>
-                        <li><a href="profile3.html">Profile 3</a></li>
-                        <li><a href="profile4.html">Profile 4</a></li>
-                        <li><a href="sidebar_profile.html">Sidebar profile</a></li>
-                        <li><a href="user_detail.html">User detail</a></li>
-                        <li><a href="edit_profile.html">Edit profile</a></li>
-                        <li><a href="about.html">About</a></li>
-                        <li><a href="friends.html">Friends</a></li>
-                        <li><a href="friends2.html">Friends 2</a></li>
-                        <li><a href="profile_wall.html">Profile wall</a></li>
-                        <li><a href="photos1.html">Photos 1</a></li>
-                        <li><a href="photos2.html">Photos 2</a></li>
-                        <li><a href="view_photo.html">View photo</a></li>
-                        <li><a href="messages1.html">Messages 1</a></li>
-                        <li><a href="messages2.html">Messages 2</a></li>
-                        <li><a href="group.html">Group</a></li>
-                        <li><a href="list_users.html">List users</a></li>
-                        <li><a href="file_manager.html">File manager</a></li>
-                        <li><a href="people_directory.html">People directory</a></li>
-                        <li><a href="list_posts.html">List posts</a></li>
-                        <li><a href="grid_posts.html">Grid posts</a></li>
-                        <li><a href="forms.html">Forms</a></li>
-                        <li><a href="buttons.html">Buttons</a></li>
-                        <li><a href="error404.html">Error 404</a></li>
-                        <li><a href="error500.html">Error 500</a></li>
-                        <li><a href="recover_password.html">Recover password</a></li>
-                        <li><a href="registration_mail.html">Registration mail</a></li>
+                        <li><a href="/trip/new"><i class="glyphicon glyphicon-globe"></i>Create Trip</a></li>
+                        <li><a href="/#(user.username)"><i class="glyphicon glyphicon-user"></i>Profile</a></li>
+                        <li><a href="/"><i class="glyphicon glyphicon-home"></i>Home</a></li>
+                        <li><a href="/user/logout"><i class="fa fa-sign-out"></i>Logout</a></li>
                     </ul>
                 </li>
             </ul>
+            <form class="navbar-form" role="search" id="navBarSearchForm">
+                <div class="form-group">
+                    <input class="form-control" id="searchbox" name="search" placeholder="Search Here" autocomplete="off" autofocus="autofocus" type="text">
+                        </div>
+            </form>
+            }
+            
+        </div><!--/.nav-collapse -->
         </div>
-        }
-    </div>
-</nav>
-
-
+</div>
+<script>
+    $(document).ready(function(){
+                      $('#()searchbox').selectize({
+                                                valueField: 'url',
+                                                labelField: 'name',
+                                                searchField: ['name'],
+                                                maxOptions: 10,
+                                                options: [],
+                                                create: false,
+                                                render: {
+                                                option: function(item, escape) {
+                                                  switch (item.objType){
+                                                  case "users":
+                                                      return '<div><img class="searchIcon" src="'+ item.icon +'">' +escape(item.name)+' <small><i>(@'+ escape(item.slug)+')</i></small></div>';
+                                                      break;
+                                                  case "trips":
+                                                      return '<div><img class="searchIcon" src="'+ item.icon +'">' +escape(item.name)+' <small>('+ escape(item.slug)+')</small></div>';
+                                                      break;
+                                                  default:
+                                                      return '<div><img class="searchIcon" src="'+ item.icon +'">' +escape(item.name)+' <small>('+ escape(item.slug)+')</small></div>';
+                                                  }
+                                                }
+                                                },
+                                                optgroups: [
+                                                            {value: 'users', label: 'Users'},
+                                                            {value: 'trips', label: 'Trips'}
+                                                            ],
+                                                optgroupField: 'objType',
+                                                optgroupOrder: ['users','trips'],
+                                                load: function(query, callback) {
+                                                if (!query.length) return callback();
+                                                $.ajax({
+                                                       url: 'http://localhost:8080/search/all/'+query,
+                                                       type: 'GET',
+                                                       dataType: 'json',
+                                                       error: function() {
+                                                       callback();
+                                                       },
+                                                       success: function(res) {
+                                                       callback(res.data);
+                                                       }
+                                                       });
+                                                },
+                                                onChange: function(){
+                                                window.location = this.items[0];
+                                                }
+                                                });
+                      });
+                      
+                      $('#()NavNotifications').selectize({
+                                                  valueField: 'url',
+                                                  labelField: 'name',
+                                                  searchField: ['name'],
+                                                  maxOptions: 10,
+                                                  options: [],
+                                                  create: false,
+                                                  render: {
+                                                  option: function(item, escape) {
+                                                  switch (item.objType){
+                                                  case "users":
+                                                  return '<div><img class="searchIcon" src="'+ item.icon +'">' +escape(item.name)+' <small><i>(@'+ escape(item.slug)+')</i></small></div>';
+                                                  break;
+                                                  case "trips":
+                                                  return '<div><img class="searchIcon" src="'+ item.icon +'">' +escape(item.name)+' <small>('+ escape(item.slug)+')</small></div>';
+                                                  break;
+                                                  default:
+                                                  return '<div><img class="searchIcon" src="'+ item.icon +'">' +escape(item.name)+' <small>('+ escape(item.slug)+')</small></div>';
+                                                  }
+                                                  }
+                                                  },
+                                                  optgroups: [
+                                                              {value: 'users', label: 'Users'},
+                                                              {value: 'trips', label: 'Trips'}
+                                                              ],
+                                                  optgroupField: 'objType',
+                                                  optgroupOrder: ['users','trips'],
+                                                  load: function(query, callback) {
+                                                  if (!query.length) return callback();
+                                                  $.ajax({
+                                                         url: 'http://localhost:8080/search/all/'+query,
+                                                         type: 'GET',
+                                                         dataType: 'json',
+                                                         error: function() {
+                                                         callback();
+                                                         },
+                                                         success: function(res) {
+                                                         callback(res.data);
+                                                         }
+                                                         });
+                                                  },
+                                                  onChange: function(){
+                                                  window.location = this.items[0];
+                                                  }
+                                                  });
+                                                  });
+    </script>
 

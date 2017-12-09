@@ -12,15 +12,28 @@ extension Trip : Envyable {
         return self.id!
     }
     
-  
     func getCreators() -> [Identifier] {
         var creators = [Identifier]()
-        for user in attendees.enumerated(){
-            creators.append(user.element.id!)
+        do {
+            for user in try attendees.all(){
+                creators.append(user.id!)
+            }
+        }catch{
+            
         }
         return creators
     }
     
     //    TODO : NOT REALLY SURE
     
+}
+
+extension Trip: Commentable {
+    
+    func addComment(by: Identifier, commment _comment: String, createFeed _feed : Bool) throws {
+        let comment = try self.addComment(by: by, commment: _comment)
+        if _feed {
+            try Feed.createNewFeed(createdBy: by, feedText: "comment to trip", feedObject: self.objectType, feedObjectId: self.objectIdentifier, feedType: .commentAdded, targetId: comment.id!)
+        }
+    }
 }

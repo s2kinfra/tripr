@@ -7,4 +7,16 @@
 
 extension User : Followable {
     
+    func getFollowedTrips() throws -> [Trip] {
+        var trips = [Trip]()
+        
+        for follow in self.following {
+            if follow.object == Trip.objectType {
+                trips.append((try Trip.find(follow.objectId))!)
+            }
+        }
+       
+        return trips
+        
+    }
 }

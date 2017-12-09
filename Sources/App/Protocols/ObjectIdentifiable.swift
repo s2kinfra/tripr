@@ -9,9 +9,15 @@ import Foundation
 protocol ObjectIdentifiable {
     var objectType : String { get }
     var objectIdentifier : Identifier { get }
+    static var objectType : String { get }
 }
 
 extension ObjectIdentifiable {
+    static var objectType : String {
+        get {
+            return "App.\(String(describing: self))"
+        }
+    }
     var objectType : String {
         get {
             return String(describing: self)

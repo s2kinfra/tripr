@@ -1,0 +1,99 @@
+#extend("CrossApplication/base")
+#export("body") {
+#embed("CrossApplication/popup_comment")
+#embed("CrossApplication/popup_photo")
+<div class="container page-content">
+    <div class="row">
+        <div class="col-md-10 col-md-offset-1">
+            <div class="widget">
+                <div class="cover-photo">
+                    <div class="wall-timeline-img">
+                        <img src="#file(place.photo,"photo"){#(photo.path)}" alt="">
+                            </div>
+                </div>
+                <div class="widget-body">
+                    #(place.name)
+                    
+                </div>
+            </div>
+            <div class="widget">
+                <div class="widget-header">
+                    <h3 class="widget-caption">Details</h3>
+                </div>
+                <div class="widget-body bordered-top bordered-sky">
+                    <ul class="list-unstyled profile-about margin-none">
+                        <li class="padding-v-5">
+                            <div class="row">
+                                <div class="col-sm-4"><span class="text-muted">Longitude</span></div>
+                                <div class="col-sm-8">#(place.longitude)</div>
+                            </div>
+                        </li>
+                        <li class="padding-v-5">
+                            <div class="row">
+                                <div class="col-sm-4"><span class="text-muted">Latitude</span></div>
+                                <div class="col-sm-8">#(place.latitude)</div>
+                            </div>
+                        </li>
+                        <li class="padding-v-5">
+                            <div class="row">
+                                <div class="col-sm-4"><span class="text-muted">POI</span></div>
+                                <div class="col-sm-8"><select class="check">
+                                    #if(place.poi){
+                                        <option value="#(place.poi.placeId)">#(place.poi.name)</option>
+                                        <option value="-">-</option>
+                                    }##else() {
+                                        <option value="-">-</option>
+                                    }
+                                    #loop(pois, "poi"){
+                                    #equal(poi.placeId, place.poi.placeId){}##else(){
+                                        <option value="#(poi.placeId)">#(poi.name) | #(poi.vicinity)</option>
+                                    }
+                                    }
+                                </select></div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="box profile-info">
+                <div class="box-footer">
+                    <ul class="nav nav-pills">
+                        <li><a href="#" data-popup-open="popup-comment"><i class="fa fa-comment-o"></i></a></li>
+                        <!--<li><a href="#" ><i class="fa fa-map-marker"></i></a></li>-->
+                        <li><a href="#" data-popup-open="popup-photo"><i class="fa fa-camera"></i></a></li>
+                        <li><a href="#"><i class=" fa fa-film"></i></a></li>
+                        <li><a href="#"><i class="fa fa-microphone"></i></a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            #loop(place.feeds, "feed") {
+                #embed("Widgets/timeline")
+            }
+            
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function(){
+      
+      //change to two ? how?
+      
+      $('.check').change(function(){
+                         var data= $(this).val();
+                         $.ajax({
+                                type: "POST",
+                                url: "/place/#(place.id)/addPOI",
+                                data: "placeId="+data,
+                                success: function( data ) {
+                                    window.location.reload();
+                                }
+                                });
+                         });
+      });
+      
+</script>
+
+}

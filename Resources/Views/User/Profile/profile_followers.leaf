@@ -6,9 +6,9 @@
         <div class="media user-follower">
             <img src="#(profile.profilePicture.path)" alt="User Avatar" class="media-object pull-left">
                 <div class="media-body">
-                    <a href="/#(followerUser.username)">#(followerUser.firstName) #(followerUser.lastName)<br><span class="text-muted username">@#(followerUser.username)</span></a>
+                    <a href="/#(followerUser.username)">#(followerUser.fullname)<br><span class="text-muted username">@#(followerUser.username)</span></a>
                     #equal(user.id, followerUser.id){} ##else(){
-                        #isFollowing(user.id, followerUser.id) {
+                        #isFollowing(user.id, "App.User", followerUser.id) {
                             <a href="/#(followerUser.username)/unfollow">
                             <button type="button" class="btn btn-sm btn-toggle-following pull-right">
                             <i class="fa fa-checkmark-round"></i> <span>Following</span></button></a>

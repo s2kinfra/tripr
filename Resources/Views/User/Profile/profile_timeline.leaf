@@ -1,57 +1,7 @@
 <div class="tab-pane fade in active" id="timeline">
     <!--  posts -->
-    #loop(profile.feeds, "feed") { 
-        <div class="box box-widget">
-            <div class="box-header with-border">
-                <div class="user-block">
-                    <img class="img-circle" src="img/Friends/guy-3.jpg" alt="User Image">
-                        <span class="username"><a href="#">John Breakgrow jr.</a></span>
-                        <span class="description">Shared publicly - 7:30 PM Today</span>
-                        </div>
-            </div>
-            
-            <div class="box-body" style="display: block;">
-                <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam ac iaculis ligula, eget efficitur nisi. In vel rutrum orci. Etiam ut orci volutpat, maximus quam vel, euismod orci. Nunc in urna non lectus malesuada aliquet. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nam dignissim mi ac metus consequat, a pharetra neque molestie. Maecenas condimentum lorem quis vulputate volutpat. Etiam sapien diam
-                </p>
-                <button type="button" class="btn btn-default btn-xs"><i class="fa fa-share"></i> Share</button>
-                <button type="button" class="btn btn-default btn-xs"><i class="fa fa-thumbs-o-up"></i> Like</button>
-                <span class="pull-right text-muted">127 likes - 3 comments</span>
-            </div>
-            <div class="box-footer box-comments" style="display: block;">
-                <div class="box-comment">
-                    <img class="img-circle img-sm" src="img/Friends/guy-2.jpg" alt="User Image">
-                        <div class="comment-text">
-                            <span class="username">
-                                Maria Gonzales
-                                <span class="text-muted pull-right">8:03 PM Today</span>
-                            </span>
-                            It is a long established fact that a reader will be distracted
-                            by the readable content of a page when looking at its layout.
-                        </div>
-                        </div>
-                
-                <div class="box-comment">
-                    <img class="img-circle img-sm" src="img/Friends/guy-3.jpg" alt="User Image">
-                        <div class="comment-text">
-                            <span class="username">
-                                Luna Stark
-                                <span class="text-muted pull-right">8:03 PM Today</span>
-                            </span>
-                            It is a long established fact that a reader will be distracted
-                            by the readable content of a page when looking at its layout.
-                        </div>
-                        </div>
-            </div>
-            <div class="box-footer" style="display: block;">
-                <form action="#" method="post">
-                    <img class="img-responsive img-circle img-sm" src="img/Friends/guy-3.jpg" alt="Alt Text">
-                        <div class="img-push">
-                            <input type="text" class="form-control input-sm" placeholder="Press enter to post comment">
-                                </div>
-                        </form>
-            </div>
-        </div><!--  end posts -->
+    #loop(profile.feeds, "feed") {
+        #embed("Widgets/timeline")
     }
     
 </div>

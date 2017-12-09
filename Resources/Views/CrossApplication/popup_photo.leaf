@@ -1,0 +1,85 @@
+<link href="/assets/css/popup.css" rel="stylesheet">
+    <script src="/assets/js/exif.js"></script>
+
+    <div class="popup" data-popup="popup-photo">
+        <div class="popup-inner">
+            <h2>Add Photo</h2>
+            <!-- post state form -->
+            <div class="box profile-info n-border-top">
+                <form action="/trip/#(trip.id)/addPhoto" method="post" enctype="multipart/form-data" id="addPhoto">
+                    <span class="file-input btn btn-azure btn-file">
+                        <i class="fa fa-file-image-o"></i>Pick Photo <input type="file" onchange="loadFile(event)" name="file" accept="image/*" id="file">
+                            </span>
+                    
+                        <div class="hr-line-dashed"></div>
+                        <input type='text' id='long' name="longitude" value="" readonly hidden />
+                        <input type='text' id='lat'  name="latitude" value="" readonly hidden />
+                        <div class="hr-line-dashed"></div>
+                        <br>
+                        <div id="gps-data" hidden="true">
+                        <label>
+                            <h5>Create place from photo?</h5>
+                            <input class="checkbox-slider slider-icon yesno" type="checkbox" name="createPlace" id="createPlace" onchange="toggleName(event)" />
+                            <span class="text"> </span>
+                        </label>
+                        <br>
+                            <input type='text' id='placename' name="placename" placeholder="Place name" hidden="true"/>
+                        </div>
+                        <div class="hr-line-dashed"></div>
+                        <img id="output"/>
+                        <textarea name="file_comment" id="file_comment" class="form-control input-lg p-text-area" rows="2" placeholder="Add comment to photo"></textarea>
+                </form>
+                <button type="button" class="btn btn-azure pull-right fa fa-upload" onclick="document.getElementById('addPhoto').submit();">Upload</button>
+            </div><!-- end post state form -->
+            <a class="popup-close" data-popup-close="popup-photo" href="#">x</a>
+        </div>
+    </div>
+    <script>
+        $('#()createPlace').click(function() {
+                                  if($('#()createPlace').is(':checked')){
+                                     var placename = document.getElementById("placename");
+                                     placename.hidden = false;
+                                     }else{
+                                     var placename = document.getElementById("placename");
+                                     placename.hidden = true;
+                                     }
+                         });
+        var loadFile = function(event) {
+            var output = document.getElementById('output');
+            output.src = URL.createObjectURL(event.target.files[0]);
+        };
+    </script>
+    <script>
+        function togglegps(){
+            var gpsdata = document.getElementById("gps-data");
+            gpsdata.style.display = gpsdata.style.display == "none" ? "block" : "none";
+        }
+                                            document.getElementById("file").onchange = function(e) {
+                                                var output = document.getElementById('output');
+                                                output.src = URL.createObjectURL(e.target.files[0]);
+                                                var gpsdata = document.getElementById("gps-data");
+                                                gpsdata.hidden = true;
+                                                EXIF.getData(e.target.files[0], function() {
+                                                             var result = EXIF.pretty(this);
+                                                             var lat = EXIF.getTag(this,"GPSLatitude");
+                                                             var lon = EXIF.getTag(this,"GPSLongitude");
+                                                             //Convert coordinates to WGS84 decimal
+                                                             var latRef = EXIF.getTag(this,"GPSLatitudeRef") || "N";
+                                                             var lonRef = EXIF.getTag(this,"GPSLongitudeRef") || "W";
+                                                             lat = (lat[0] + lat[1]/60 + lat[2]/3600) * (latRef == "N" ? 1 : -1);
+                                                             lon = (lon[0] + lon[1]/60 + lon[2]/3600) * (lonRef == "W" ? -1 : 1);
+                                                             
+                                                             if (lat != null && lon != null) {
+                                                             addGPS('dynamicInput', lat, lon)
+                                                             }
+                                                             });
+                                            }
+    
+    function addGPS(divName, lat, lon) {
+        var gpsdata = document.getElementById("gps-data");
+        gpsdata.hidden = false;
+        document.getElementById("long").value = lon;
+        document.getElementById("lat").value = lat;
+    }
+</script>
+

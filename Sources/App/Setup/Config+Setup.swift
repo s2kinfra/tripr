@@ -58,6 +58,10 @@ extension Config {
         preparations.append(Attachment.self)
         preparations.append(Destination.self)
         preparations.append(Feed.self)
-//        preparations.append(Route.self)
+        preparations.append(Pivot<Trip, User>.self) // pivot for attendants
+        preparations.append(POI.self)
+        preparations.append(Place.self)
+        preparations.append(City.self)
+
     }
 }

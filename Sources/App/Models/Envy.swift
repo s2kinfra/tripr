@@ -11,22 +11,22 @@ import FluentProvider
 
 final class Envy : Model{
     var storage: Storage = Storage()
-    var enviedBy : User
+    var enviedBy : Identifier
     var enviedObject : String
     var enviedObjectId : Identifier
     var timestamp : Double
     
-    init(enviedBy _user: User, enviedObject _object : String, enviedObjectId _id : Identifier) {
+    init(enviedBy _user: Identifier, enviedObject _object : String, enviedObjectId _id : Identifier, timestamp _timestamp : Double = Date().timeIntervalSince1970) {
         self.enviedBy = _user
         self.enviedObject = _object
-        self.timestamp = Date().timeIntervalSince1970
+        self.timestamp = _timestamp
         self.enviedObjectId = _id
     }
     
     func makeRow() throws -> Row {
         var row = Row()
         try row.set("id", self.id)
-        try row.set("enviedBy" , enviedBy.id)
+        try row.set("enviedBy" , enviedBy)
         try row.set("enviedObject", enviedObject)
         try row.set("enviedObjectId", enviedObjectId)
         try row.set("timestamp", timestamp)
@@ -34,7 +34,7 @@ final class Envy : Model{
     }
     
     required init(row: Row) throws {
-        enviedBy = try User.find(try row.get("enviedBy"))!
+        enviedBy = try row.get("enviedBy")
         enviedObject = try row.get("enviedObject")
         enviedObjectId = try row.get("enviedObjectId")
         timestamp = try row.get("timestamp")
@@ -52,6 +52,25 @@ final class Envy : Model{
     
     
     
+}
+
+extension Envy: JSONConvertible {
+    convenience init(json: JSON) throws {
+        self.init(enviedBy: try json.get("enviedBy"),
+                  enviedObject: try json.get("enviedObject"),
+                  enviedObjectId: try json.get("enviedObjectId"),
+                  timestamp: try json.get("timestamp"))
+    }
+    
+    func makeJSON() throws -> JSON {
+        var json = JSON()
+        try json.set("enviedBy", enviedBy)
+        try json.set("enviedObject", enviedObject)
+        try json.set("id", id)
+        try json.set("enviedObjectId", enviedObjectId)
+        try json.set("timestamp", timestamp)
+        return json
+    }
 }
 
 extension Envy: Timestampable { }

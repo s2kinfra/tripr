@@ -1,0 +1,120 @@
+#extend("CrossApplication/base")
+#export("body") {
+<div class="container page-content edit-profile">
+    <div class="row">
+        <div class="col-md-10 col-md-offset-1">
+            <div class="tab-content profile-page">
+                <!-- PROFILE TAB CONTENT -->
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="user-info-right">
+                                <div class="basic-info">
+                                    <form class="form-horizontal" role="form" action="/trip/create" method="post" enctype="multipart/form-data" id="userdata">
+                                        <fieldset>
+                                            <h3><i class="fa fa-square"></i> Trip information</h3>
+                                            <div class="form-group">
+                                                <label for="name" class="col-sm-3 control-label">Trip name</label>
+                                                <div class="col-sm-4">
+                                                    <input type="text" id="name" name="name" placeholder="" class="form-control">
+                                                        </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="description" class="col-sm-3 control-label">Trip Description</label>
+                                                <div class="col-sm-4">
+                                                    <input type="text" id="description" name="description" placeholder="" class="form-control">
+                                                        </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="startdate" class="col-sm-3 control-label">Start date for trip</label>
+                                                <div class="col-sm-4">
+                                                    <input type="date" id="startdatepicker" name="startdate" class="form-control">
+                                                        </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="enddate" class="col-sm-3 control-label">End date for trip</label>
+                                                <div class="col-sm-4">
+                                                    <input type="date" id="enddatepicker" name="enddate" class="form-control">
+                                                        </div>
+                                            </div>
+                                        </fieldset>
+                                        <!--  <fieldset>
+                                         <h3><i class="fa fa-square"></i> Privacy</h3>
+                                         <div class="checkbox">
+                                         <label>
+                                         <input type="checkbox" class="colored-blue" checked="checked">
+                                         <span class="text">Show my display name</span>
+                                         </label>
+                                         </div>
+                                         <div class="checkbox">
+                                         <label>
+                                         <input type="checkbox" class="colored-blue" checked="checked">
+                                         <span class="text">Show my birth date</span>
+                                         </label>
+                                         </div>
+                                         <div class="checkbox">
+                                         <label>
+                                         <input type="checkbox" class="colored-blue" checked="checked">
+                                         <span class="text">Show my email</span>
+                                         </label>
+                                         </div>
+                                         <div class="checkbox">
+                                         <label>
+                                         <input type="checkbox" class="colored-blue" checked="checked">
+                                         <span class="text">Show my online status on chat</span>
+                                         </label>
+                                         </div>
+                                         </fieldset>
+                                         <h3><i class="fa fa-square"> </i>Notifications</h3>
+                                         <fieldset>
+                                         <div class="checkbox">
+                                         <label>
+                                         <input type="checkbox" class="colored-blue" checked="checked">
+                                         <span class="text">Receive message from administrator</span>
+                                         </label>
+                                         </div>
+                                         
+                                         <div class="checkbox">
+                                         <label>
+                                         <input type="checkbox" class="colored-blue" checked="checked">
+                                         <span class="text">New product has been added</span>
+                                         </label>
+                                         </div>
+                                         
+                                         <div class="checkbox">
+                                         <label>
+                                         <input type="checkbox" class="colored-blue" checked="checked">
+                                         <span class="text">Product review has been approved</span>
+                                         </label>
+                                         </div>
+                                         
+                                         <div class="checkbox">
+                                         <label>
+                                         <input type="checkbox" class="colored-blue" checked="checked">
+                                         <span class="text">Others liked your post</span>
+                                         </label>
+                                         </div>
+                                         </fieldset> -->
+                                        <a href="javascript:{}" onclick="document.getElementById('userdata').submit(); return false;" class="btn btn-custom-primary"><i class="fa fa-plus"></i> Create Trip!</a>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        </div>
+    </div>
+</div>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="/resources/demos/style.css">
+        <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+        <script>
+            $( function() {
+              $( "#()startdatepicker" ).datepicker();
+              } );
+              $( function() {
+                $( "#()enddatepicker" ).datepicker();
+                } );
+            </script>
+        
+}

@@ -18,6 +18,57 @@ final class User {
     var password : Bytes
     var _profilePicture : Identifier?
     
+    var unreadNotifications : [Notification] {
+        get {
+            do {
+                let notif = try Notification.makeQuery().filter("receiver", .equals, self.objectIdentifier).filter("read", .equals, false).all()
+                return notif
+            }catch{
+                return [Notification]()
+            }
+        }
+    }
+    var notifications : [Notification] {
+        get {
+            do {
+                let notif = try Notification.makeQuery().filter("receiver", .equals, self.objectIdentifier).sort("timestamp", .descending).all()
+                return notif
+            }catch{
+                return [Notification]()
+            }
+        }
+    }
+    var fullname : String {
+        get {
+            if (firstName.count < 1){
+                return username
+            }
+            
+            return "\(self.firstName) \(self.lastName)"
+        }
+        
+    }
+    
+    var _profileCover : Identifier?
+    
+    var profileCover : File {
+        get {
+            guard let fileId = self._profileCover else {
+                
+                let workDir = Config.workingDirectory()
+                let file = File.init(name: "defaultProfileCover", path: "/img/login_back.jpg", absolutePath: "\(workDir)public/img/login_back.jpg", user_id: self.id!, type: .image)
+                return file
+            }
+            guard let file = try? File.find(fileId)! else {
+                let workDir = Config.workingDirectory()
+                let file = File.init(name: "defaultProfileCover", path: "/img/login_back.jpg", absolutePath: "\(workDir)public/img/login_back.jpg", user_id: self.id!, type: .image)
+                return file
+            }
+            
+            return file
+        }
+    }
+    
     var profilePicture : File {
         get {
             guard let fileId = self._profilePicture else {
@@ -35,6 +86,7 @@ final class User {
             return file
         }
     }
+    
     init(username _username : String, email _email: String, password _password : Bytes, profilePicture _profilepic : Identifier? = nil, firstName _first : String, lastName _last : String) {
         username = _username
         email = _email
@@ -48,8 +100,9 @@ final class User {
         password = []
     }
     
-    
-    
+    func getURL()->String{
+        return "/\(self.username)"
+    }
 }
 
 extension User : Envyable {

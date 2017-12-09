@@ -1,0 +1,317 @@
+#extend("CrossApplication/base")
+#export("body") {
+#embed("CrossApplication/popup_comment")
+#embed("CrossApplication/popup_photo")
+<style>
+    #raw(){result {
+        position: absolute;
+        width: 100%;
+        max-width:870px;
+        cursor: pointer;
+        overflow-y: auto;
+        max-height: 400px;
+        box-sizing: border-box;
+        z-index: 2001;
+    }
+    .link-class:hover{
+        background-color:#f1f1f1;
+    } }
+</style>
+
+<div class="col-md-12">
+    <div class="bg-picture" id="map"></div>
+</div>
+
+    <div id="page-content-wrapper">
+        <div class="row">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="widget">
+                            <div class="widget-header">
+                                <h3 class="widget-caption">Trip details</h3>
+                            </div>
+                            <div class="widget-body bordered-top bordered-sky">
+                                <ul class="list-unstyled profile-about margin-none">
+                                    <li class="padding-v-5">
+                                        <div class="row">
+                                            <div class="col-sm-4"><span class="text-muted">Name</span></div>
+                                            <div class="col-sm-8">#(trip.name)</div>
+                                        </div>
+                                    </li>
+                                    <li class="padding-v-5">
+                                        <div class="row">
+                                            <div class="col-sm-4"><span class="text-muted">Start date</span></div>
+                                            <div class="col-sm-8">#date(trip.tripStart)</div>
+                                        </div>
+                                    </li>
+                                    <li class="padding-v-5">
+                                        <div class="row">
+                                            <div class="col-sm-4"><span class="text-muted">End date</span></div>
+                                            <div class="col-sm-8">#date(trip.tripEnd)</div>
+                                        </div>
+                                    </li>
+                                    <li class="padding-v-5">
+                                        <div class="row">
+                                            <div class="col-sm-4"><span class="text-muted">Created by:</span></div>
+                                            <div class="col-sm-8">#user(trip.createdBy,"created"){#(created.fullname)}</div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <div class="widget">
+                            <div class="widget-header">
+                                <h3 class="widget-caption">About the Trip</h3>
+                            </div>
+                            <div class="widget-body bordered-top bordered-sky">
+                                #(trip.tripDescription)
+                            </div>
+                        </div>
+                        
+                        <div class="widget widget-friends">
+                            <div class="widget-header">
+                                <h3 class="widget-caption">Attendants</h3>
+                            </div>
+                            <div class="widget-body bordered-top  bordered-sky">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <ul class="img-grid" style="margin: 0 auto;">
+                                            #loop(trip.attendants, "attendants") {
+                                            <li style="margin: 10px;">
+                                                #user(attendants.id, "attendant"){
+                                                <a href="/#(attendant.username)">
+                                                    <img src="#(attendant.profilePicture.path)" alt="image">
+                                                        <br><small>#(attendant.fullname)</small>
+                                                        </a>
+                                                }
+                                            </li>
+                                            }
+                                            
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            #equal(user.id, trip.createdBy){
+                            <div class="widget-body bordered-top  bordered-sky">
+                            <div class="input-group input-group-sm">
+                                <form class="form-horizontal" role="form" action="/trip/#(trip.id)/addAttendant" method="post" enctype="multipart/form-data" id="userdata">
+                                    <div class="input-group">
+                                    <input type="text" class="form-control" placeholder="Add user to trip" name="search" id="search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" >
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-default" type="button" onclick="document.getElementById('userdata').submit();">Add</button>
+                                        </span>
+                                        </div>
+                                        </form>
+                            </div>
+                            <ul class="list-group" id="result"></ul>
+                            </div>
+                            }
+                        </div>
+                    </div>
+                    
+                    
+                    <!--============= timeline posts-->
+                    <div class="col-md-6">
+                        <div class="row">
+                            <!-- left posts-->
+                            <div class="col-md-12">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <!-- post state form -->
+                                        <div class="box profile-info n-border-top">
+                                            <div class="box-footer box-form">
+                                                <ul class="nav nav-pills">
+                                                    <li><a href="#" data-popup-open="popup-comment"><i class="fa fa-comment-o"></i></a></li>
+                                                    <li><a href="#" ><i class="fa fa-map-marker"></i></a></li>
+                                                    <li><a href="#" data-popup-open="popup-photo"><i class="fa fa-camera"></i></a></li>
+                                                    <li><a href="#"><i class=" fa fa-film"></i></a></li>
+                                                    <li><a href="#"><i class="fa fa-microphone"></i></a></li>
+                                                    
+                                                </ul>
+                                            </div>
+                                        </div><!-- end post state form -->
+                                        
+                                        #loop(trip.feeds, "feed") {
+                                            #embed("Widgets/timeline")
+                                        }
+                                    </div>
+                                </div>
+                            </div><!-- end left posts-->
+                        </div>
+                    </div><!-- end timeline posts-->
+                    
+                    <div class="col-md-3">
+                        <div class="row">
+                            <div class="widget widget-friends">
+                                <div class="widget-header">
+                                    <h3 class="widget-caption">Places</h3>
+                                </div>
+                                <div class="widget-body bordered-top  bordered-sky">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <ul class="img-grid" style="margin: 0 auto;">
+                                                #loop(trip.places, "place") {
+                                                <li style="margin: 10px;">
+                                                    <a href="/place/#(place.id)">
+                                                        #file(place.photo, "photo"){
+                                                            <img src="#(photo.path)" alt="image">
+                                                        }##else(){
+                                                            <img src="/img/mapmarker.png" alt="image">
+                                                        }
+                                                            <br><small>#(place.name)</small>
+                                                            </a>
+                                                </li>
+                                                }
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            
+                            <div class="widget">
+                                <div class="widget-header">
+                                    <h3 class="widget-caption">Destinations</h3>
+                                </div>
+                                <div class="widget-body bordered-top bordered-sky">
+                                    <div class="card">
+                                        <div class="content">
+                                            <ul class="list-unstyled team-members">
+                                                <li>
+                                                    <div class="row">
+                                                        <div class="col-xs-3">
+                                                            <div class="avatar">
+                                                                <img src="img/Likes/likes-1.png" alt="Circle Image" class="img-circle img-no-padding img-responsive">
+                                                                    </div>
+                                                        </div>
+                                                        <div class="col-xs-6">
+                                                            Github
+                                                        </div>
+                                                        
+                                                        <div class="col-xs-3 text-right">
+                                                            <btn class="btn btn-sm btn-azure btn-icon"><i class="fa fa-user"></i></btn>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="row">
+                                                        <div class="col-xs-3">
+                                                            <div class="avatar">
+                                                                <img src="img/Likes/likes-3.png" alt="Circle Image" class="img-circle img-no-padding img-responsive">
+                                                                    </div>
+                                                        </div>
+                                                        <div class="col-xs-6">
+                                                            Css snippets
+                                                        </div>
+                                                        
+                                                        <div class="col-xs-3 text-right">
+                                                            <btn class="btn btn-sm btn-azure btn-icon"><i class="fa fa-user"></i></btn>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="row">
+                                                        <div class="col-xs-3">
+                                                            <div class="avatar">
+                                                                <img src="img/Likes/likes-2.png " alt="Circle Image" class="img-circle img-no-padding img-responsive">
+                                                                    </div>
+                                                        </div>
+                                                        <div class="col-xs-6">
+                                                            Html Action
+                                                        </div>
+                                                        
+                                                        <div class="col-xs-3 text-right">
+                                                            <btn class="btn btn-sm btn-azure btn-icon"><i class="fa fa-user"></i></btn>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        function initMap() {
+            var uluru = {lat: -25.363, lng: 131.044};
+            bounds  = new google.maps.LatLngBounds();
+            var map = new google.maps.Map(document.getElementById('map'), {
+                                          center: new google.maps.LatLng(0, 0),
+                                          zoom: 2,
+                                          minZoom: 1
+                                          });
+                                          
+                                          #loop(trip.places,"place") {
+                                              
+                                              var contentString = '<div id="content">'+
+                                              '<div id="siteNotice">'+
+                                              '</div>'+
+                                              '<div id="bodyContent">'+
+                                              '<p>'+'#(place.name)'+'</p>'+
+                                              '</div>'+'<img src="#(user.profileImage.path)" width="100" height="100">' +
+                                              '</div>';
+                                              var infowindow = new google.maps.InfoWindow()
+                                              var loc = {lat: #(place.latitude), lng: #(place.longitude)};
+                                              bounds.extend(loc);
+                                              var marker = new google.maps.Marker({
+                                                                                  position: loc,
+                                                                                  map: map
+                                                                                  });
+                                                                                  google.maps.event.addListener(marker,'click', (function(marker,contentString,infowindow){
+                                                                                                                                 return function() {
+                                                                                                                                 infowindow.setContent(contentString);
+                                                                                                                                 infowindow.open(map,marker);
+                                                                                                                                 };
+                                                                                                                                 })(marker,contentString,infowindow));
+                                          }
+                                          map.fitBounds(bounds);
+                                          map.panToBounds(bounds);
+                                          
+        }
+    </script>
+    <script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAknKg8MG0bW9uzXrUJC88fx0U480P3ctI&callback=initMap">
+        </script>
+    
+    <script>
+        var isQuering = false;
+        $(document).ready(function(){
+                          $.ajaxSetup({ cache: false });
+                          $('#()search').keyup(function(){
+                                               $('#()result').html('');
+                                               $('#()state').val('');
+                                               var searchField = $('#()search').val();
+                                               if(searchField.length < 3){
+                                               return;
+                                               }
+                                               if(isQuering == true) {
+                                               return;
+                                               }
+                                               isQuering = true;
+                                               $.getJSON('http://localhost:8080/search/user/'+searchField, function(data) {
+                                                         $.each(data, function(key, value){
+                                                                $('#()result').append('<li class="list-group-item link-class"><img src="'+value.profilePicture.path+'" height="20" width="20" class="img-thumbnail" /> '+value.firstName+' '+value.lastName+' | <span class="text-muted">'+'@'+value.username+'</span></li>');
+                                                                });
+                                                         
+                                                         isQuering = false;
+                                                         });
+                                               });
+                          
+                          $('#()result').on('click', 'li', function() {
+                                            var click_text = $(this).text().split('|');
+                                            $('#()search').val($.trim(click_text[1]));
+                                            $("#()result").html('');
+                                            });
+                          });
+                
+        </script>
+    }
+   

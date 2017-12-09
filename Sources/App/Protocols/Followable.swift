@@ -39,7 +39,6 @@ extension Followable {
         get {
             do {
                 let following = try Follow.makeQuery().and { andGroup in
-                    try andGroup.filter("object", .equals, objectType)
                     try andGroup.filter("follower", .equals, objectIdentifier)
                     try andGroup.filter("accepted", .equals, true)
                     }.all()
@@ -83,9 +82,6 @@ extension Followable {
     func startFollowing(by : Identifier) throws {
         let follow = Follow.init(object: objectType, objectId: objectIdentifier, follower: by)
         try follow.save()
-        let notif = Notification.init(relatedObject: String(describing: follow), relatedObjectId: follow.id!, receiver: objectIdentifier, sender: by)
-        try notif.save()
-        try Feed.createNewFeed(createdBy: by, feedText: "\(String(describing: by.int)) is requesting to follow \(String(describing: objectIdentifier.int))", feedObject: objectType, feedObjectId: objectIdentifier, feedType: .followRequest)
         
     }
     
@@ -116,7 +112,7 @@ extension Followable {
         }
         follow.accepted = true
         try follow.save()
-        try Feed.createNewFeed(createdBy: follower, feedText: "\(String(describing: follower.int)) is now following \(String(describing: objectIdentifier.int))", feedObject: objectType, feedObjectId: objectIdentifier, feedType: .followAccepted)
+        
     }
     
     func declineFollow(follower: Identifier) throws {

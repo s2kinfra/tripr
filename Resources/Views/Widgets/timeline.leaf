@@ -1,0 +1,520 @@
+<!-- requires input feed of object Feed
+
+ followAccepted = 1,
+ followDeclined = 2,
+ followRequest = 3,
+ tripCreated = 10,
+ tripFollowed = 11,
+ commentAdded = 20,
+ photoAdded = 30,
+ unknown = 9999
+-->
+<link href="/assets/css/lightbox.css" rel="stylesheet">
+
+#equal(feed.feedType, "1") {
+   <!-- followAccepted-->
+    #equal(feed.createdBy, user.id) {
+        #user(feed.createdBy, "follower"){
+        #user(feed.feedObjectId, "followee"){
+            <div class="box box-widget">
+                <div class="box-header with-border">
+                    <div class="user-block">
+                        <img class="img-circle" src="#(follower.profilePicture.path)" alt="User Image">
+                            <span class="username"><a href="/#(follower.username)">#(follower.fullname)</a></span>
+                            <span class="description">#timeago(feed.timestamp)</span>
+                    </div>
+                </div>
+                <div class="box-body" style="display: block;">
+                    <p> You are now following <a href="/#(followee.username)">#(followee.fullname)</a></p>
+                
+                #feedCommentable(feed.feedType){
+                    #isEnvied(feed,user.id){
+                    <a href="#()"><button type="button" class="btn btn-maroon btn-xs"><i class="fa fa-heartbeat"></i> Envy</button></a>
+                    }##else(){
+                        <a href="/feed/#(feed.id)/envy"><button type="button" class="btn btn-blue btn-xs"><i class="fa fa-heartbeat"></i> Envy</button></a>
+                    }
+                    <span class="pull-right text-muted">#count(feed.envies) Envies - #count(feed.comments) comments</span>
+                    </div>
+                
+                #loop(feed.comments, "comment"){
+                #user(comment.writtenBy, "commenter"){
+                    <div class="box-footer box-comments" style="display: block;">
+                         <div class="box-comment">
+                             <img class="img-circle img-sm" src="#(commenter.profilePicture.path)" alt="User Image">
+                             <div class="comment-text">
+                                 <span class="username">
+                                     <a href="/#(commenter.username)"> #(commenter.fullname)</a>
+                                 <span class="text-muted pull-right">#timeago(comment.timestamp)</span>
+                                 </span>
+                                 #(comment.text)
+                             </div>
+                         </div>
+                     </div>
+                }
+                }
+                <div class="box-footer" style="display: block;">
+                    <form action="/feed/#(feed.id)/comment" method="post" enctype="multipart/form-data" id="comment">
+                        <img class="img-responsive img-circle img-sm" src="#(user.profilePicture.path)" alt="Alt Text">
+                            <div class="img-push">
+                                <input type="text" name="comment" class="form-control input-sm" placeholder="Press enter to post comment">
+                                    </div>
+                            </form>
+                </div>
+                }##else(){</div>}
+            </div>
+        }
+        }
+    }
+    ##equal(feed.feedObjectId, user.id) {
+    #user(feed.createdBy, "follower") {
+    <div class="box box-widget">
+        <div class="box-header with-border">
+            <div class="user-block">
+                <img class="img-circle" src="#(follower.profilePicture.path)" alt="User Image">
+                    <span class="username"><a href="/#(follower.username)">#(follower.fullname)</a></span>
+                    <span class="description">#timeago(feed.timestamp)</span>
+            </div>
+        </div>
+        <div class="box-body" style="display: block;">
+            <p> <a href="/#(follower.username)">#(follower.firstName) #(follower.lastName) </a>is now following you </p>
+            #feedCommentable(feed.feedType){
+            #isEnvied(feed,user.id){
+            <a href="#()"><button type="button" class="btn btn-maroon btn-xs"><i class="fa fa-heartbeat"></i> Envy</button></a>
+            }##else(){
+            <a href="/feed/#(feed.id)/envy"><button type="button" class="btn btn-blue btn-xs"><i class="fa fa-heartbeat"></i> Envy</button></a>
+            }
+            <span class="pull-right text-muted">#count(feed.envies) Envies - #count(feed.comments) comments</span>
+        </div>
+        #loop(feed.comments, "comment"){
+        #user(comment.writtenBy, "commenter"){
+        <div class="box-footer box-comments" style="display: block;">
+            <div class="box-comment">
+                <img class="img-circle img-sm" src="#(commenter.profilePicture.path)" alt="User Image">
+                    <div class="comment-text">
+                        <span class="username">
+                            <a href="/#(commenter.username)"> #(commenter.firstName) #(commenter.lastName)</a>
+                            <span class="text-muted pull-right">#timeago(comment.timestamp)</span>
+                        </span>
+                        #(comment.text)
+                    </div>
+                    </div>
+        </div>
+        }
+        }
+        <div class="box-footer" style="display: block;">
+            <form action="/feed/#(feed.id)/comment" method="post" enctype="multipart/form-data" id="comment">
+                <img class="img-responsive img-circle img-sm" src="#(user.profilePicture.path)" alt="Alt Text">
+                    <div class="img-push">
+                        <input type="text" name="comment" class="form-control input-sm" placeholder="Press enter to post comment">
+                            </div>
+                    </form>
+        </div>
+        }##else(){</div>}
+    </div>
+    }
+    }
+    ##else() {
+        <!-- for other users to see-->
+        #user(feed.createdBy, "follower") {
+        #user(feed.feedObjectId, "followee"){
+            <div class="box box-widget">
+                <div class="box-header with-border">
+                    <div class="user-block">
+                        <img class="img-circle" src="#(follower.profilePicture.path)" alt="User Image">
+                            <span class="username"><a href="/#(follower.username)">#(follower.firstName) #(follower.lastName)</a></span>
+                            <span class="description">#timeago(feed.timestamp)</span>
+                            </div>
+                </div>
+                <div class="box-body" style="display: block;">
+                    <p> <a href="/#(follower.username)">#(follower.firstName) #(follower.lastName)</a> is now following <a href="/#(followee.username)"> #(followee.firstName) #(followee.lastName) </a></p>
+                    #feedCommentable(feed.feedType){
+                    #isEnvied(feed,user.id){
+                    <a href="#()"><button type="button" class="btn btn-maroon btn-xs"><i class="fa fa-heartbeat"></i> Envy</button></a>
+                    }##else(){
+                    <a href="/feed/#(feed.id)/envy"><button type="button" class="btn btn-blue btn-xs"><i class="fa fa-heartbeat"></i> Envy</button></a>
+                    }
+                    <span class="pull-right text-muted">#count(feed.envies) Envies - #count(feed.comments) comments</span>
+                </div>
+                #loop(feed.comments, "comment"){
+                #user(comment.writtenBy, "commenter"){
+                <div class="box-footer box-comments" style="display: block;">
+                    <div class="box-comment">
+                        <img class="img-circle img-sm" src="#(commenter.profilePicture.path)" alt="User Image">
+                            <div class="comment-text">
+                                <span class="username">
+                                    <a href="/#(commenter.username)"> #(commenter.firstName) #(commenter.lastName)</a>
+                                    <span class="text-muted pull-right">#timeago(comment.timestamp)</span>
+                                </span>
+                                #(comment.text)
+                            </div>
+                            </div>
+                </div>
+                }
+                }
+                <div class="box-footer" style="display: block;">
+                    <form action="/feed/#(feed.id)/comment" method="post" enctype="multipart/form-data" id="comment">
+                        <img class="img-responsive img-circle img-sm" src="#(user.profilePicture.path)" alt="Alt Text">
+                            <div class="img-push">
+                                <input type="text" name="comment" class="form-control input-sm" placeholder="Press enter to post comment">
+                                    </div>
+                            </form>
+                </div>
+                }##else(){</div>}
+            </div>
+        }
+        }
+    }
+}
+#equal(feed.feedType, "2") {
+<!--followDeclined-->
+}
+#equal(feed.feedType, "3") {
+<!--followRequest-->
+        #equal(feed.createdBy, user.id) {
+            #user(feed.createdBy, "follower"){
+            #object(feed.feedObject,feed.feedObjectId, "followee"){
+                <div class="box box-widget">
+                    <div class="box-header with-border">
+                        <div class="user-block">
+                            <img class="img-circle" src="#(follower.profilePicture.path)" alt="User Image">
+                                <span class="username"><a href="/#(follower.username)">#(follower.firstName) #(follower.lastName)</a></span>
+                                <span class="description">#timeago(feed.timestamp)</span>
+                                </div>
+                    </div>
+                    <div class="box-body" style="display: block;">
+                        <p> You requested to follow <a href="/#(followee.username)"> #(followee.fullname)</a></p>
+                    </div>
+                </div>
+            }
+            }
+        }
+        ##equal(feed.feedObjectId, user.id) {
+            #user(feed.createdBy, "follower") {
+                <div class="box box-widget">
+                    <div class="box-header with-border">
+                        <div class="user-block">
+                            <img class="img-circle" src="#(follower.profilePicture.path)" alt="User Image">
+                                <span class="username"><a href="/#(follower.username)">#(follower.firstName) #(follower.lastName)</a></span>
+                                <span class="description">#timeago(feed.timestamp)</span>
+                                </div>
+                    </div>
+                    <div class="box-body" style="display: block;">
+                        #isRequestingFollow(follower.id, user.id) {
+                            <p> #(follower.firstName) #(follower.lastName) requests to follow you </p>
+                        }##else(){
+                            <p> #(follower.firstName) #(follower.lastName) requested to follow you </p>
+                        }
+                    </div>
+                    <div class="widget-header">
+                    </div>
+                    #isRequestingFollow(follower.id, user.id) {
+                    <div class="widget-body bordered-top bordered-sky">
+                        <a href="/#(follower.username)/acceptfollow"><button type="button" class="btn btn-success"><i class="fa fa-user-plus"></i>Accept</button></a>
+                        <a href="/#(follower.username)/declinefollow"><button type="button" class="btn btn-danger"><i class="fa fa-user-times"></i>Decline</button></a>
+                    </div>
+                    }
+                </div>
+            }
+        }
+        ##else() {
+            <!-- nothing to show to public -->
+        }
+}
+#equal(feed.feedType, "20") {
+#user(feed.createdBy, "createdBy"){
+<div class="box box-widget">
+    <div class="box-header with-border">
+        <div class="user-block">
+            <img class="img-circle" src="#(createdBy.profilePicture.path)" alt="User Image">
+                <span class="username"><a href="/#(createdBy.username)">#(createdBy.fullname)</a></span> added a comment.
+                <span class="description">#timeago(feed.timestamp)</span>
+                </div>
+    </div>
+    <div class="box-body" style="display: block;">
+        #comment(feed.targetId, "tripComment"){
+        <p> #(tripComment.text)</p>
+        }
+        #feedCommentable(feed.feedType){
+        #isEnvied(feed,user.id){
+        <a href="#()"><button type="button" class="btn btn-maroon btn-xs"><i class="fa fa-heartbeat"></i> Envy</button></a>
+        }##else(){
+        <a href="/feed/#(feed.id)/envy"><button type="button" class="btn btn-blue btn-xs"><i class="fa fa-heartbeat"></i> Envy</button></a>
+        }
+        <span class="pull-right text-muted">#count(feed.envies) Envies - #count(feed.comments) comments</span>
+    </div>
+    #loop(feed.comments, "comment"){
+    #user(comment.writtenBy, "commenter"){
+    <div class="box-footer box-comments" style="display: block;">
+        <div class="box-comment">
+            <img class="img-circle img-sm" src="#(commenter.profilePicture.path)" alt="User Image">
+                <div class="comment-text">
+                    <span class="username">
+                        <a href="/#(commenter.username)"> #(commenter.firstName) #(commenter.lastName)</a>
+                        <span class="text-muted pull-right">#timeago(comment.timestamp)</span>
+                    </span>
+                    #(comment.text)
+                </div>
+                </div>
+    </div>
+    }
+    }
+    <div class="box-footer" style="display: block;">
+        <form action="/feed/#(feed.id)/comment" method="post" enctype="multipart/form-data" id="comment">
+            <img class="img-responsive img-circle img-sm" src="#(user.profilePicture.path)" alt="Alt Text">
+                <div class="img-push">
+                    <input type="text" name="comment" class="form-control input-sm" placeholder="Press enter to post comment">
+                        </div>
+                </form>
+    </div>
+    }##else(){</div>}
+    </div>
+}
+}
+
+#equal(feed.feedType, "30") {
+#user(feed.createdBy, "createdBy"){
+
+<script src="/assets/js/lightbox.js"></script>
+<div class="box box-widget">
+    <div class="box-header with-border">
+        <div class="user-block">
+            <img class="img-circle" src="#(createdBy.profilePicture.path)" alt="User Image">
+                <span class="username"><a href="/#(createdBy.username)">#(createdBy.fullname)</a> added a photo</span>
+                <span class="description">#timeago(feed.timestamp)</span>
+                </div>
+    </div>
+    <div class="box-body" style="display: block;">
+        #file(feed.targetId, "file"){
+        <a href="#(file.path)" data-lightbox="#(file.id)" data-title="#loop(file.comments,"filecomment"){#(filecomment.text)}"><img class="img-responsive show-in-modal" src="#(file.path)" alt="Photo"></a>
+            
+            #loop(file.comments,"filecomment"){ <p> #(filecomment.text) </p> }
+        }
+        <p></p>
+        #feedCommentable(feed.feedType){
+        #isEnvied(feed,user.id){
+        <a href="#()"><button type="button" class="btn btn-maroon btn-xs"><i class="fa fa-heartbeat"></i> Envy</button></a>
+        }##else(){
+        <a href="/feed/#(feed.id)/envy"><button type="button" class="btn btn-blue btn-xs"><i class="fa fa-heartbeat"></i> Envy</button></a>
+        }
+        <span class="pull-right text-muted">#count(feed.envies) Envies - #count(feed.comments) comments</span>
+    </div>
+    #loop(feed.comments, "comment"){
+    #user(comment.writtenBy, "commenter"){
+    <div class="box-footer box-comments" style="display: block;">
+        <div class="box-comment">
+            <img class="img-circle img-sm" src="#(commenter.profilePicture.path)" alt="User Image">
+                <div class="comment-text">
+                    <span class="username">
+                        <a href="/#(commenter.username)"> #(commenter.firstName) #(commenter.lastName)</a>
+                        <span class="text-muted pull-right">#timeago(comment.timestamp)</span>
+                    </span>
+                    #(comment.text)
+                </div>
+                </div>
+    </div>
+    }
+    }
+    <div class="box-footer" style="display: block;">
+        <form action="/feed/#(feed.id)/comment" method="post" enctype="multipart/form-data" id="comment">
+            <img class="img-responsive img-circle img-sm" src="#(user.profilePicture.path)" alt="Alt Text">
+                <div class="img-push">
+                    <input type="text" name="comment" class="form-control input-sm" placeholder="Press enter to post comment">
+                        </div>
+                </form>
+    </div>
+    }##else(){</div>}
+</div>
+}
+}
+
+#equal(feed.feedType, "10") {
+    #user(feed.createdBy, "createdBy"){
+    #trip(feed.targetId, "trip"){
+    <div class="box box-widget">
+        <div class="box-header with-border">
+            <div class="user-block">
+                <img class="img-circle" src="#(createdBy.profilePicture.path)" alt="User Image">
+                    <span class="username"><h5><a href="/#(createdBy.username)">#(createdBy.fullname)</a> created a new trip <a href="/trip/#(trip.id)">#(trip.name)</a>.</h5></span>
+                    <span class="description">#timeago(feed.timestamp)</span>
+                    </div>
+        </div>
+        <div class="box-body" style="display: block;">
+            
+                Description : #(trip.tripDescription)<br>
+                Starting : #date(trip.tripStart)<br>
+                Ending : #date(trip.tripEnd)<br>
+                
+                <div class="widget widget-friends">
+                    <div class="widget-body bordered-top  bordered-sky">
+                        <div class="row">
+                            <div class="col-md-12">
+                    <p class="common-friends"><h5>Attendants</h5></p>
+                    <ul class="img-grid">
+                        
+                    #loop(trip.attendants, "attendant"){
+                    
+                        <li>
+                            <a href="/#(attendant.username)">
+                                <img src="#(attendant.profilePicture.path)" alt="image" title="#(attendant.fullname)">
+                                    </a>
+                        </li>
+                    }
+                    </ul>
+                        </div>
+                    </div>
+                </div>
+                    </div>
+                                
+           
+                #isFollowing(user.id, "App.Trip", trip.id){}##else(){
+                    <a href="/trip/#(trip.id)/follow"><button type="button" class="btn btn-azure btn-xs"><i class="fa fa-share"></i> Follow</button></a>
+                }
+            }
+            #isEnvied(feed,user.id){
+                <button type="button" class="btn btn-maroon btn-xs"><i class="fa fa-heartbeat"></i> Envy</button>
+            }##else(){
+                <a href="/feed/#(feed.id)/envy"><button type="button" class="btn btn-blue btn-xs"><i class="fa fa-heartbeat"></i> Envy</button></a>
+            }
+            #feedCommentable(feed.feedType){
+                <span class="pull-right text-muted">#count(feed.envies) Envies - #count(feed.comments) comments</span>
+                </div>
+                #loop(feed.comments, "comment"){
+                    #user(comment.writtenBy, "commenter"){
+                        <div class="box-footer box-comments" style="display: block;">
+                            <div class="box-comment">
+                                <img class="img-circle img-sm" src="#(commenter.profilePicture.path)" alt="User Image">
+                                    <div class="comment-text">
+                                        <span class="username">
+                                            <a href="/#(commenter.username)"> #(commenter.firstName) #(commenter.lastName)</a>
+                                            <span class="text-muted pull-right">#timeago(comment.timestamp)</span>
+                                        </span>
+                                        #(comment.text)
+                                    </div>
+                                    </div>
+                        </div>
+                    }
+                }
+                <div class="box-footer" style="display: block;">
+                    <form action="/feed/#(feed.id)/comment" method="post" enctype="multipart/form-data" id="comment">
+                        <img class="img-responsive img-circle img-sm" src="#(user.profilePicture.path)" alt="Alt Text">
+                            <div class="img-push">
+                                <input type="text" name="comment" class="form-control input-sm" placeholder="Press enter to post comment">
+                                    </div>
+                            </form>
+                </div>
+            }##else(){</div>}
+    </div>
+    }
+}
+
+#equal(feed.feedType, "11") {
+#user(feed.createdBy, "follower"){
+#trip(feed.feedObjectId, "followee"){
+<div class="box box-widget">
+    <div class="box-header with-border">
+        <div class="user-block">
+            <img class="img-circle" src="#(follower.profilePicture.path)" alt="User Image">
+                <span class="username"><a href="/#(follower.username)">#(follower.fullname)</a></span>
+                <span class="description">#timeago(feed.timestamp)</span>
+                </div>
+    </div>
+    <div class="box-body" style="display: block;">
+        <p> #(follower.fullname) is now following <a href="/trip/#(followee.id)">#(followee.name)</a></p>
+        
+        #feedCommentable(feed.feedType){
+        #isEnvied(feed,user.id){
+        <a href="#()"><button type="button" class="btn btn-maroon btn-xs"><i class="fa fa-heartbeat"></i> Envy</button></a>
+        }##else(){
+        <a href="/feed/#(feed.id)/envy"><button type="button" class="btn btn-blue btn-xs"><i class="fa fa-heartbeat"></i> Envy</button></a>
+        }
+        <span class="pull-right text-muted">#count(feed.envies) Envies - #count(feed.comments) comments</span>
+    </div>
+    
+    #loop(feed.comments, "comment"){
+    #user(comment.writtenBy, "commenter"){
+    <div class="box-footer box-comments" style="display: block;">
+        <div class="box-comment">
+            <img class="img-circle img-sm" src="#(commenter.profilePicture.path)" alt="User Image">
+                <div class="comment-text">
+                    <span class="username">
+                        <a href="/#(commenter.username)"> #(commenter.fullname)</a>
+                        <span class="text-muted pull-right">#timeago(comment.timestamp)</span>
+                    </span>
+                    #(comment.text)
+                </div>
+                </div>
+    </div>
+    }
+    }
+    <div class="box-footer" style="display: block;">
+        <form action="/feed/#(feed.id)/comment" method="post" enctype="multipart/form-data" id="comment">
+            <img class="img-responsive img-circle img-sm" src="#(user.profilePicture.path)" alt="Alt Text">
+                <div class="img-push">
+                    <input type="text" name="comment" class="form-control input-sm" placeholder="Press enter to post comment">
+                        </div>
+                </form>
+    </div>
+    }##else(){</div>}
+</div>
+}
+}
+
+}
+
+#equal(feed.feedType, "9999") {
+ UNKNOWN
+<div class="box box-widget">
+    <div class="box-header with-border">
+        <div class="user-block">
+            <img class="img-circle" src="img/Friends/guy-3.jpg" alt="User Image">
+                <span class="username"><a href="#">John Breakgrow jr.</a></span>
+                <span class="description">Shared publicly - 7:30 PM Today</span>
+                </div>
+    </div>
+    
+    <div class="box-body" style="display: block;">
+        <p>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam ac iaculis ligula, eget efficitur nisi. In vel rutrum orci. Etiam ut orci volutpat, maximus quam vel, euismod orci. Nunc in urna non lectus malesuada aliquet. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nam dignissim mi ac metus consequat, a pharetra neque molestie. Maecenas condimentum lorem quis vulputate volutpat. Etiam sapien diam
+        </p>
+        <button type="button" class="btn btn-default btn-xs"><i class="fa fa-share"></i> Share</button>
+        <button type="button" class="btn btn-default btn-xs"><i class="fa fa-thumbs-o-up"></i> Like</button>
+        <span class="pull-right text-muted">127 likes - 3 comments</span>
+    </div>
+    <div class="box-footer box-comments" style="display: block;">
+        <!--
+         <div class="box-comment">
+         <img class="img-circle img-sm" src="img/Friends/guy-2.jpg" alt="User Image">
+         <div class="comment-text">
+         <span class="username">
+         Maria Gonzales
+         <span class="text-muted pull-right">8:03 PM Today</span>
+         </span>
+         It is a long established fact that a reader will be distracted
+         by the readable content of a page when looking at its layout.
+         </div>
+         </div>
+         
+         <div class="box-comment">
+         <img class="img-circle img-sm" src="img/Friends/guy-3.jpg" alt="User Image">
+         <div class="comment-text">
+         <span class="username">
+         Luna Stark
+         <span class="text-muted pull-right">8:03 PM Today</span>
+         </span>
+         It is a long established fact that a reader will be distracted
+         by the readable content of a page when looking at its layout.
+         </div>
+         </div>
+         </div>
+         -->
+        <div class="box-footer" style="display: block;">
+            <form action="#" method="post">
+                <img class="img-responsive img-circle img-sm" src="img/Friends/guy-3.jpg" alt="Alt Text">
+                    <div class="img-push">
+                        <input type="text" class="form-control input-sm" placeholder="Press enter to post comment">
+                            </div>
+                    </form>
+        </div>
+    </div><!--  end posts -->
+}
+

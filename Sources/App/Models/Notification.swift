@@ -71,6 +71,50 @@ final class Notification : Model {
     }
 }
 
+
+extension Notification : Parameterizable {
+    /// the unique key to use as a slug in route building
+    public static var uniqueSlug: String {
+        return "id"
+    }
+    
+    // returns the found model for the resolved url parameter
+    public static func make(for parameter: String) throws -> Notification {
+        guard let found = try Notification.find(parameter) else {
+            throw Abort(.notFound, reason: "No \(Notification.self) with that identifier was found.")
+        }
+        return found
+    }
+}
+
+
+extension Notification: JSONConvertible {
+    convenience init(json: JSON) throws {
+        self.init(relatedObject: try json.get("relatedObject"),
+                  relatedObjectId: try json.get("relatedObjectId"),
+                  receiver: try json.get("receiver"),
+                  sender: try json.get("sender")
+        )
+        self.comment = try json.get("comment")
+        self.id = try json.get("id")
+        self.read = try json.get("read")
+    }
+    
+    func makeJSON() throws -> JSON {
+        var json = JSON()
+        try json.set("relatedObject", relatedObject)
+        try json.set("relatedObjectId", relatedObjectId)
+        try json.set("receiver", receiver)
+        try json.set("sender", sender)
+        try json.set("comment", comment)
+        try json.set("id",id)
+        try json.set("read", read)
+        try json.set("createdAt", createdAt?.timeIntervalSince1970)
+        return json
+    }
+    
+}
+
 extension Notification: Preparation {
     /// Prepares a table/collection in the database
     /// for storing Posts
@@ -82,7 +126,7 @@ extension Notification: Preparation {
             builder.int("relatedObjectId")
             builder.foreignId(for: User.self, optional: false, unique: false, foreignIdKey: "receiver", foreignKeyName: "notif_receiver")
             builder.foreignId(for: User.self, optional: false, unique: false, foreignIdKey: "sender", foreignKeyName: "notif_sender")
-            builder.string("comment")
+            builder.longText("comment")
             builder.double("timestamp")
             builder.bool("read")
         }

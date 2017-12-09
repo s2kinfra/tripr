@@ -48,8 +48,22 @@ extension Envyable {
         }
     }
     
+    func isObjectEnviedBy(user _user: Identifier) throws -> Bool {
+        let envies = try Envy.makeQuery().and( { andGroup in
+            try andGroup.filter("enviedObject", .equals, objectType)
+            try andGroup.filter("enviedObjectId", .equals, objectIdentifier)
+            try andGroup.filter("enviedBy", .equals, _user)
+        }).all()
+        
+        if envies.count > 0 {
+            return true
+        }else {
+            return false
+        }
+    }
+    
     func addEnvyBy(user _user: User) throws {
-        let envy = Envy.init(enviedBy: _user, enviedObject: objectType, enviedObjectId: objectIdentifier)
+        let envy = Envy.init(enviedBy: _user.id!, enviedObject: objectType, enviedObjectId: objectIdentifier)
         try envy.save()
         try createNotification(sender: _user.id!)
     }

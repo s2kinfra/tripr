@@ -7,6 +7,29 @@
 //
 
 import Foundation
+
+extension Array where Element: Equatable {
+    
+    public func uniq() -> [Element] {
+        var arrayCopy = self
+        arrayCopy.uniqInPlace()
+        return arrayCopy
+    }
+    
+    mutating public func uniqInPlace() {
+        var seen = [Element]()
+        var index = 0
+        for element in self {
+            if seen.contains(element) {
+                remove(at: index)
+            } else {
+                seen.append(element)
+                index = index + 1
+            }
+        }
+    }
+}
+
 extension Date {
     func timeAgo(numericDates:Bool) -> String {
         let calendar = NSCalendar.current

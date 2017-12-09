@@ -12,7 +12,7 @@ import FluentProvider
 protocol Attachable : ObjectIdentifiable {
     
     var attachments : [Attachment] {get}
-    func addAttachment(file _file : File) throws
+    func addAttachment(file _file : File) throws -> Attachment
     func removeAttachment(file _file : File) throws
     func removeAttachment(attachment : Attachment) throws
     
@@ -32,9 +32,10 @@ extension Attachable {
         }
     }
     
-    func addAttachment(file _file: File) throws {
+    func addAttachment(file _file: File) throws -> Attachment{
         let attachment = Attachment.init(file: _file.id!, object: self.objectType, objectId: self.objectIdentifier)
         try attachment.save()
+        return attachment
     }
  
     func removeAttachment(attachment : Attachment) throws {

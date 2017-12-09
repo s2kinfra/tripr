@@ -22,6 +22,7 @@ extension User : Model {
         firstName = try row.get("firstName")
         lastName = try row.get("lastName")
         _profilePicture = try row.get("profilePicture")
+        _profileCover = try row.get("profileCover")
     }
     
     // Serializes the Post to the database
@@ -34,6 +35,7 @@ extension User : Model {
         try row.set("lastName", lastName)
         try row.set("id", id)
         try row.set("profilePicture", _profilePicture)
+        try row.set("profileCover", _profileCover)
         return row
     }
     
@@ -74,6 +76,7 @@ extension User: Preparation {
             builder.string("firstName", optional : true, unique: false)
             builder.string("lastName", optional : true, unique: false)
             builder.int("profilePicture",optional : true, unique: false)
+            builder.int("profileCover", optional: true, unique: false)
         }
         try database.index("username", for: User.self)
         try database.index("email", for: User.self)

@@ -20,7 +20,9 @@ final class RoutesView: RouteCollection {
             // root
             builder.get("") { req in
                 if req.auth.isAuthenticated(User.self) {
-                    return try self.viewFactory.renderView(path: "Home/home", request: req, parameters:  ["timeline" : try req.user().getFeedObjects(limit: 20) ])
+                    let user = try req.user()
+                    return try self.viewFactory.renderView(path: "Home/home", request: req,parameters:["trips" : try Trip.getTripsFor(user: user.id!).makeJSON(),
+                                                                                                       "ftrips": try user.getFollowedTrips().makeJSON()])
                 }
                 return try self.viewFactory.renderView(path: "index", request: req)
             }
@@ -31,21 +33,15 @@ final class RoutesView: RouteCollection {
             //User
             let userController = UserController(viewFactory: self.viewFactory)
             userController.addRoutes(drop: drop)
-            
-//            //Search
-//            let searchController = SearchController(viewFactory: self.viewFactory)
-//            searchController.addRoutes(drop: drop)
-//            let passmw = PasswordAuthenticationMiddleware(User.self)
-//            let tripController = TripController(viewFactory: self.viewFactory)
-//            tripController.addRoutes(drop: drop)
-//            //drop.middleware.append(tokenMiddleware)
-//            let socialController = SocialController(viewFactory: self.viewFactory)
-//            socialController.addRoutes(drop: drop)
-//            builder.group(passmw) { request in
-//                request.get("secure") { request in
-//                    return try request.user().firstname
-//                }
-//            }
+            //trip
+            let tripController = TripController(viewFactory: self.viewFactory)
+            tripController.addRoutes(drop: drop)
+            //search
+            let searchController = SearchController(viewFactory: self.viewFactory)
+            searchController.addRoutes(drop: drop)
+//          Places
+            let placeController = PlaceController(viewFactory: self.viewFactory)
+            placeController.addRoutes(drop: drop)
         
     }
 }

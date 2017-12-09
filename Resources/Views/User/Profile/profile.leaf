@@ -24,20 +24,20 @@
         <div class="col-md-10 col-md-offset-1">
             <div class="user-profile">
                 <div class="profile-header-background">
-                    <img src="img/Cover/game.jpg" alt="Profile Header Background">
+                    <img src="#(profile.profileCover.path)" alt="Profile Header Background">
                         </div>
                 <div class="row">
                     <div class="col-md-4">
                         <div class="profile-info-left">
                             <div class="text-center">
-                                <img src="#(profile.profilePicture.path)" alt="Avatar" class="avatar img-circle" height=150px width=150px>
-                                    <h2>#(profile.firstName) #(profile.lastName)</h2>
+                                <img src="#(profile.profilePicture.path)" alt="Avatar" class="avatar img-circle">
+                                    <h2>#(profile.fullname)</h2>
                                     </div>
                             <div class="action-buttons">
                                 <div class="row">
                                     #equal(user.id, profile.id) { }
                                     ##else() {
-                                        #isFollowing(user.id, profile.id) {
+                                        #isFollowing(user.id,"App.User", profile.id) {
                                         <div class="col-xs-6">
                                             <a href="/#(profile.username)/unfollow" class="btn btn-danger btn-block"><i class="fa fa-user-times"></i> Stop Follow</a>
                                         </div>
@@ -67,7 +67,7 @@
                             <div class="section">
                                 <h3>About Me
                                     #equal(user.id, profile.id) {
-                                        <a class="btn btn-default btn-sm shiny icon-only danger pull-right" href="/#(profile.username)/edit">
+                                        <a class="btn btn-default btn-sm shiny icon-only danger pull-right" href="/#(profile.username)/edit_profile">
                                             <i class="fa fa-pencil"></i>
                                         </a>
                                     }
@@ -77,9 +77,9 @@
                             </div>
                             <div class="section">
                                 <h3>Statistics</h3>
-                                <p><span class="badge">#count(profile.following)</span> Following</p>
-                                <p><span class="badge">#count(profile.followers)</span> Followers</p>
-                                <p><span class="badge">620</span> Trips</p>
+                                <p><span class="badge">#count(profile.following)</span> <a href="#()following" data-toggle="tab">Following</a></p>
+                                <p><span class="badge">#count(profile.followers)</span> <a href="#()followers" data-toggle="tab">Followers</a></p>
+                                <p><span class="badge">#count(trips)</span> <a href="#()trips" data-toggle="tab">Trips</a></p>
                             </div>
                             <div class="section">
                                 <h3>Social</h3>
@@ -96,6 +96,7 @@
                         <div class="profile-info-right">
                             <ul class="nav nav-pills nav-pills-custom-minimal custom-minimal-bottom">
                                 <li class="active"><a href="#()timeline" data-toggle="tab">Timeline</a></li>
+                                <li><a href="#()trips" data-toggle="tab">Trips</a></li>
                                 <li><a href="#()followers" data-toggle="tab">Followers</a></li>
                                 <li><a href="#()following" data-toggle="tab">Following</a></li>
                             </ul>
@@ -103,6 +104,9 @@
                                 <!-- activities -->
                                 #embed("User/Profile/profile_timeline")
                                 <!-- end activities -->
+                                <!--trips-->
+                                #embed("User/Profile/profile_trips")
+                                <!--end trips-->
                                 <!-- followers -->
                                 #embed("User/Profile/profile_followers")
                                 <!-- end followers -->

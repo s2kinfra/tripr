@@ -12,7 +12,10 @@ import FluentProvider
 final class Trip {
     var storage = Storage()
     
-    var attendees = [User]()
+    var attendees: Siblings<Trip, User, Pivot<Trip, User>> {
+        return siblings()
+    }
+    
     var destinations : [Destination] {
         get {
            guard let destinations = try? Destination.makeQuery().and({ andGroup in
@@ -46,22 +49,55 @@ final class Trip {
 //        }
 //    }
     
-    var tripStart : Date?
-    var tripEnd : Date?
+    var tripStart : Double?
+    var tripEnd : Double?
     var name : String
-    var coverPhoto : File?
+    var _coverPhoto : Identifier?
+    var cover : File {
+        get {
+            guard let fileId = self._coverPhoto else {
+                let workDir = Config.workingDirectory()
+                let file = File.init(name: "defaultTripCover", path: "/img/mapmarker.png", absolutePath: "\(workDir)public/img/mapmarker.png", user_id: self.id!, type: .image)
+                return file
+            }
+            guard let file = try? File.find(fileId)! else {
+                let workDir = Config.workingDirectory()
+                let file = File.init(name: "defaultTripCover", path: "/img/mapmarker.png", absolutePath: "\(workDir)public/img/mapmarker.png", user_id: self.id!, type: .image)
+                return file
+            }
+            
+            return file
+        }
+    }
     var tripDescription : String = ""
     var createdBy : Identifier
     var publicTrip : Bool = false
     
     
-    init(name _name : String, tripStart _start : Date, tripEnd _end : Date, createdBy _createdBy : Identifier) throws{
+    static func createTrip(name _name : String, tripStart _start : Double, tripEnd _end : Double, createdBy _createdBy : Identifier, description _desc : String = "") throws -> Trip {
+        
+        let trip = try Trip.init(name: _name, tripStart: _start, tripEnd: _end, createdBy: _createdBy,description : _desc)
+        let user = try User.find(_createdBy)!
+        try trip.save()
+        try trip.attendees.add(user)
+        try trip.save()
+        
+        try Feed.createNewFeed(createdBy: _createdBy,
+                               feedText: "<a href=\"\(user.getURL())\">\(user.username) created a new trip",
+                               feedObject: trip.objectType,
+                               feedObjectId: trip.objectIdentifier,
+                               feedType: .tripCreated,
+                               targetId: trip.id!)
+        
+        return trip
+    }
+    
+    init(name _name : String, tripStart _start : Double, tripEnd _end : Double, createdBy _createdBy : Identifier, description _desc : String = "") throws{
         self.name = _name
         self.tripStart = _start
         self.tripEnd = _end
         self.createdBy = _createdBy
-        let creator = try User.find(_createdBy)
-        self.attendees.append(creator!)
+        self.tripDescription = _desc
     }
     
     init() {
@@ -74,7 +110,19 @@ final class Trip {
         self.createdBy = _createdBy
     }
     
+    func getURL()->String{
+        return "/trip/\(self.id!.int!)"
+    }
     
+    static func getTripsFor(user _user: Identifier) throws -> [Trip] {
+        var trips = [Trip]()
+        
+        guard let trip = try? Trip.makeQuery().filter("createdBy", .equals, _user).all() else {
+            return trips
+        }
+        trips.append(contentsOf: trip)
+        return trips
+    }
     //MARK: ATTENDANTS
     
     //TODO: TODO UPDATE AFTER METHOD EXISTS
@@ -83,14 +131,12 @@ final class Trip {
         
     }
     
-    func addNewAttendant(attendant _att : User) {
-        self.attendees.append(_att)
+    func addNewAttendant(attendant _att : User) throws {
+        try self.attendees.add(_att)
     }
     
-    func removeAttendant(attendant _att: User) {
-        if let i = self.attendees.index(where: {$0.id == _att.id}){
-            self.attendees.remove(at: i)
-        }
+    func removeAttendant(attendant _att: User) throws {
+        try self.attendees.remove(_att)
     }
     
     

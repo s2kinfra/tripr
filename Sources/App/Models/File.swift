@@ -87,6 +87,15 @@ extension File: Preparation {
     }
 }
 
+extension File: Commentable {
+    var objectIdentifier: Identifier {
+        guard let fid = self.id else {
+            return 0
+        }
+        return fid
+    }
+}
+
 extension File: JSONConvertible {
     convenience init(json: JSON) throws {
         
@@ -107,6 +116,7 @@ extension File: JSONConvertible {
         try json.set("path", path)
         try json.set("absolutePath", absolutePath)
         try json.set("filetype", type.rawValue)
+        try json.set("comments", try comments.makeJSON())
         return json
     }
 }

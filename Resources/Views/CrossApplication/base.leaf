@@ -3,6 +3,7 @@
 
 #embed("CrossApplication/navbar")
 #embed("CrossApplication/flash")
+
 #import("body")
 
 </html>
