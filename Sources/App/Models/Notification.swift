@@ -38,6 +38,22 @@ final class Notification : Model {
         read = _read
     }
     
+    init(relatedObject _object : String,
+         relatedObjectId _objId: Identifier,
+         sender _sender : Identifier ,
+         comment _comment : String = "",
+         timestamp _stamp : Double = Date().timeIntervalSince1970,
+         read _read : Bool = false) {
+        
+        relatedObject = _object
+        relatedObjectId = _objId
+        receiver = nil
+        sender = _sender
+        comment = _comment
+        timestamp = _stamp
+        read = _read
+    }
+    
     func send(inBackground _back : Bool = true) throws
     {
         if _back {
@@ -69,6 +85,30 @@ final class Notification : Model {
         timestamp = try row.get("timestamp")
         
     }
+    
+    func sendNotificationTo(user _user: Identifier) throws {
+        let notification = Notification.init(relatedObject: self.relatedObject, relatedObjectId: self.relatedObjectId, receiver: _user, sender: self.sender, comment: self.comment)
+        try notification.save()
+    }
+    
+    func sendNotificationTo(users _users: [User], skipSender _skip : Identifier?) throws {
+        for user in _users {
+            if (_skip != user.id) {
+                let notification = Notification.init(relatedObject: self.relatedObject, relatedObjectId: self.relatedObjectId, receiver: user.id!, sender: self.sender, comment: self.comment)
+                try notification.save()
+            }
+        }
+    }
+    func sendNotificationTo(users _users: [User], skipSender _skip : Identifier?, comment _comment : String) throws {
+        for user in _users {
+            if (_skip != user.id) {
+                let notification = Notification.init(relatedObject: self.relatedObject, relatedObjectId: self.relatedObjectId, receiver: user.id!, sender: self.sender, comment: _comment)
+                try notification.save()
+            }
+        }
+    }
+    
+    
 }
 
 

@@ -134,17 +134,28 @@ class TripController {
             try POI.downloadPlacesFor(longitude: coord.longitude, latitude: coord.latitude, createdBy: user.id!)
         }
         
-        for attendee in try trip.attendees.all().enumerated() {
-            let notification = Notification.init(relatedObject: trip.objectType, relatedObjectId: trip.objectIdentifier, receiver: attendee.element.id!, sender: user.id!)
-            notification.comment = "<a href=\"\(user.getURL())\">\(user.fullname) </a> added a photo to trip <a href=\"\(trip.getURL())\">\(trip.name)</a>"
-            try notification.save()
-        }
+        let notification = Notification.init(relatedObject: trip.objectType, relatedObjectId: trip.objectIdentifier, sender: user.id!,comment: "<a href=\"\(user.getURL())\">\(user.fullname) </a> added a photo to trip <a href=\"\(trip.getURL())\">\(trip.name)</a>")
         
-        for follower in trip.followers.enumerated() {
-            let notification = Notification.init(relatedObject: trip.objectType, relatedObjectId: trip.objectIdentifier, receiver: try follower.element.getFollowerUser().id!, sender: user.id!)
-            notification.comment = "<a href=\"\(user.getURL())\">\(user.fullname)</a> added a photo to trip <a href=\"\(trip.getURL())\">\(trip.name)</a>"
-            try notification.save()
-        }
+        try notification.sendNotificationTo(users: try trip.attendees.all().array, skipSender: user.id!)
+        
+        
+//        for attendee in try trip.attendees.all().enumerated() {
+//            if (attendee.element.id! != user.id!){
+//                let notification = Notification.init(relatedObject: trip.objectType, relatedObjectId: trip.objectIdentifier, receiver: attendee.element.id!, sender: user.id!)
+//                notification.comment = "<a href=\"\(user.getURL())\">\(user.fullname) </a> added a photo to trip <a href=\"\(trip.getURL())\">\(trip.name)</a>"
+//                try notification.save()
+//            }
+//        }
+        
+        let notif = Notification.init(relatedObject: trip.objectType, relatedObjectId: trip.objectIdentifier, sender: user.id!)
+        notif.comment = "<a href=\"\(user.getURL())\">\(user.fullname)</a> added a photo to trip <a href=\"\(trip.getURL())\">\(trip.name)</a>"
+        try trip.sendFollowersNotification(notification: notif, sender: user.id!, skipUser: user.id!)
+        
+//        for follower in trip.followers.enumerated() {
+//            let notification = Notification.init(relatedObject: trip.objectType, relatedObjectId: trip.objectIdentifier, receiver: try follower.element.getFollowerUser().id!, sender: user.id!)
+//            notification.comment =
+//            try notification.save()
+//        }
         
         try flash?.addFlash(flashType: .success, message: "Photo added to the trip!")
         return try ViewCache.instance.back(request: request)

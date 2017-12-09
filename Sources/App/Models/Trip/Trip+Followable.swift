@@ -9,7 +9,14 @@ import Foundation
 
 extension Trip : Followable {
     
-    
+    func sendFollowersNotification(notification _notif : Notification, sender _sender : Identifier, skipUser _skip : Identifier? = nil) throws {
+        for follower in self.followers.enumerated() {
+            if (try _skip != follower.element.getFollowerUser().id!){
+                let notification = Notification.init(relatedObject: _notif.relatedObject, relatedObjectId: _notif.relatedObjectId, receiver: try follower.element.getFollowerUser().id!, sender: _sender, comment: _notif.comment)
+                try notification.save()
+            }
+        }
+    }
 }
 
 extension Trip : Rateable { }
