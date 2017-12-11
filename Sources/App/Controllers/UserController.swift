@@ -35,6 +35,7 @@ class UserController {
             user.group("notifications") {
                 notif in
                 notif.get("", handler: viewNotifications)
+                notif.get("markAllRead", handler: setAllRead)
             }
             let profile = user.grouped("profile")
             profile.post("update", handler: updateProfileInformation)            
@@ -58,6 +59,15 @@ class UserController {
         }
         
         //drop.middleware.append(tokenMiddleware)
+    }
+    
+    func setAllRead(request: Request) throws -> ResponseRepresentable {
+        let user = try request.user()
+        for notif in user.unreadNotifications{
+            notif.read = true
+            try notif.save()
+        }
+        return try ViewCache.instance.back(request: request)
     }
     
     func viewNotifications(request: Request) throws -> ResponseRepresentable {

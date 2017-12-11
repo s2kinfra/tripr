@@ -95,7 +95,7 @@
                          
                          <div class="dropdown-toolbar">
                              <div class="dropdown-toolbar-actions">
-                                 <a href="#()">Mark all as read</a>
+                                 <a href="/#(user.username)/notifications/markAllRead">Mark all as read</a>
                              </div>
                              <h3 class="dropdown-toolbar-title">Notifications (#count(user.notifications))</h3>
                          </div><!-- /dropdown-toolbar -->
@@ -123,7 +123,7 @@
                          </ul>
                          
                          <div class="dropdown-footer text-center">
-                             <a href="#()">View All</a>
+                             <a href="/#(user.username)/notifications">View All</a>
                          </div><!-- /dropdown-footer -->
                          
                      </div><!-- /dropdown-container -->
