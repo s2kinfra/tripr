@@ -21,7 +21,7 @@ final class RoutesView: RouteCollection {
             builder.get("") { req in
                 if req.auth.isAuthenticated(User.self) {
                     let user = try req.user()
-                    return try self.viewFactory.renderView(path: "Home/home", request: req,parameters:["trips" : try Trip.getTripsFor(user: user.id!).makeJSON(),
+                    return try self.viewFactory.renderView(path: "Home/home", request: req,parameters:["trips" : try Trip.getTripsFor(user: user.id!).sorted(by: {$0.createdAt! > $1.createdAt!	}).makeJSON(),
                                                                                                        "ftrips": try user.getFollowedTrips().makeJSON()])
                 }
                 return try self.viewFactory.renderView(path: "index", request: req)

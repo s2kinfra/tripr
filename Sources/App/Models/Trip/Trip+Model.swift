@@ -30,7 +30,7 @@ extension Trip: JSONConvertible {
         try json.set("comments", try comments.makeJSON())
         try json.set("feeds", feeds)
         try json.set("places", places)
-        try json.set("coverPhoto", try cover.makeJSON())
+        try json.set("coverPhoto", try self.cover.makeJSON())
         return json
     }
 }
