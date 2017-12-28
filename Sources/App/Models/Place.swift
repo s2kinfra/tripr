@@ -148,7 +148,7 @@ extension Place: Preparation {
             builder.foreignId(for: User.self, optional: false, unique: false, foreignIdKey: "createdBy", foreignKeyName: "place_createdBy")
             builder.foreignId(for: POI.self, optional: true, unique: false, foreignIdKey: "POI", foreignKeyName: "place_POI")
             builder.foreignId(for: File.self, optional: true, unique: false, foreignIdKey: "photo", foreignKeyName: "place_photo")
-            builder.parent(Destination.self, optional: true, unique: false, foreignIdKey: Destination.idKey)
+            builder.foreignId(for: Destination.self, optional: true, unique: false, foreignIdKey: "destination_id", foreignKeyName: "place_destination" )
         }
     }
     

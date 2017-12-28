@@ -6,10 +6,10 @@
     #raw(){result {
         position: absolute;
         width: 100%;
-        max-width:870px;
+        max-width:50px;
         cursor: pointer;
         overflow-y: auto;
-        max-height: 400px;
+        max-height: 50px;
         box-sizing: border-box;
         z-index: 2001;
     }

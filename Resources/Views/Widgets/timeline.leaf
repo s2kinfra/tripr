@@ -367,7 +367,9 @@
                                 
            
                 #isFollowing(user.id, "App.Trip", trip.id){}##else(){
-                    <a href="/trip/#(trip.id)/follow"><button type="button" class="btn btn-azure btn-xs"><i class="fa fa-share"></i> Follow</button></a>
+                #equal(trip.createdBy, user.id){}##else(){
+                        <a href="/trip/#(trip.id)/follow"><button type="button" class="btn btn-azure btn-xs"><i class="fa fa-share"></i> Follow</button></a>
+                    }
                 }
             }
             #isEnvied(feed,user.id){

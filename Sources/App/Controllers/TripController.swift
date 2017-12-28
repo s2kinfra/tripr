@@ -248,7 +248,9 @@ class TripController {
         try trip.save()
         
         try flash?.addFlash(flashType: .success, message: "\(nameString) added to the trip!")
-        return try ViewCache.instance.back(request: request)
+        //return try ViewCache.instance.back(request: request)
+        return try viewFactory.renderView(path: "Trip/trip_details", request: request, parameters:  ["trip" : try trip.makeJSON()
+            ])
     }
     
     func viewTrip(request: Request) throws -> ResponseRepresentable {
@@ -300,11 +302,13 @@ class TripController {
             edate = dateFormatter.date(from: enddate)?.timeIntervalSince1970
         }
 
-        let _ = try Trip.createTrip(name: name, tripStart: sdate!, tripEnd: edate!, createdBy: user.id!, description: description)
+        let trip = try Trip.createTrip(name: name, tripStart: sdate!, tripEnd: edate!, createdBy: user.id!, description: description)
         
         let flash = FlashMessage.init(request: request)
         try flash?.addFlash(flashType: .success, message: "Trip created!")
-        return try ViewCache.instance.back(request: request)
+        //return try ViewCache.instance.back(request: request)
+        return try viewFactory.renderView(path: "Trip/trip_details", request: request, parameters:  ["trip" : try trip.makeJSON()
+            ])
     }
     
     func createTripView(request: Request) throws -> ResponseRepresentable {
