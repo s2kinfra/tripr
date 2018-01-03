@@ -20,6 +20,6 @@ final class Routes: RouteCollection {
     func build(_ builder: RouteBuilder) throws {
         
         try builder.collection(RoutesView.init(drop: self.drop))
-//        try builder.collection(RoutesApi.self)
+        try builder.collection(RoutesApi.init(drop: self.drop))
     }
 }
