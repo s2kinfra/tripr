@@ -34,6 +34,7 @@ extension User: JSONConvertible {
         try json.set("fullname", fullname)
         try json.set("notifications", notifications)
         try json.set("unreadNotifications",unreadNotifications)
+        try json.set("status", status.asText)
 //        try json.set(Post.idKey, id)
 //        try json.set(Post.contentKey, content)
         return json

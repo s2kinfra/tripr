@@ -8,6 +8,25 @@
 import Vapor
 import FluentProvider
 
+enum userStatuses : Int {
+    case level1,level2,level3,level4,level5
+    
+    var asText : String {
+        switch self {
+        case .level1:
+            return "Dreamer"
+        case .level2:
+            return "Traveler"
+        case .level3:
+            return "Experienced"
+        case .level4:
+            return "World as home"
+        case .level5:
+            return "Globetrotter"
+            
+        }
+    }
+}
 final class User {
     var storage = Storage()
     
@@ -16,6 +35,7 @@ final class User {
     var firstName : String = ""
     var lastName : String = ""
     var password : Bytes
+    var status : userStatuses = .level1
     var _profilePicture : Identifier?
     
     var unreadNotifications : [Notification] {

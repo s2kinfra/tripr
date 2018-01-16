@@ -23,6 +23,7 @@ extension User : Model {
         lastName = try row.get("lastName")
         _profilePicture = try row.get("profilePicture")
         _profileCover = try row.get("profileCover")
+        status = userStatuses(rawValue: try row.get("status"))!
     }
     
     // Serializes the Post to the database
@@ -36,6 +37,7 @@ extension User : Model {
         try row.set("id", id)
         try row.set("profilePicture", _profilePicture)
         try row.set("profileCover", _profileCover)
+        try row.set("status", status.rawValue)
         return row
     }
     
@@ -75,6 +77,7 @@ extension User: Preparation {
             builder.bytes("password", optional : false, unique: false)
             builder.string("firstName", optional : true, unique: false)
             builder.string("lastName", optional : true, unique: false)
+            builder.int("status", optional : false, unique : false)
             builder.int("profilePicture",optional : true, unique: false)
             builder.int("profileCover", optional: true, unique: false)
         }
