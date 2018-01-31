@@ -101,21 +101,12 @@
         }
       },
       {
-        "package": "Flash",
-        "repositoryURL": "https://github.com/nodes-vapor/flash.git",
-        "state": {
-          "branch": null,
-          "revision": "11fcef1a1f5f180bd63ef9c1b82c216288c049b0",
-          "version": "1.0.0"
-        }
-      },
-      {
         "package": "Fluent",
         "repositoryURL": "https://github.com/vapor/fluent.git",
         "state": {
           "branch": null,
-          "revision": "6c730921636f660cdaafe1b83b7e6ab86bc3c55f",
-          "version": "2.5.0"
+          "revision": "84b0d96a61b66168f2a61ec788581e0a2ab6f9c3",
+          "version": "2.5.1"
         }
       },
       {
@@ -249,8 +240,8 @@
         "repositoryURL": "https://github.com/vapor/sockets.git",
         "state": {
           "branch": null,
-          "revision": "70d14c0e223257176f5ef69a595f7cad5de7a88b",
-          "version": "2.2.1"
+          "revision": "a77816695630a44d5d1393fc71eac37ac3d082ca",
+          "version": "2.2.2"
         }
       },
       {
@@ -260,6 +251,15 @@
           "branch": null,
           "revision": "02a47309249e69358aa3c28b5853897585d7a750",
           "version": "2.1.2"
+        }
+      },
+      {
+        "package": "TriprAPIFramework",
+        "repositoryURL": "https://github.com/s2kinfra/TriprAPIFramework.git",
+        "state": {
+          "branch": null,
+          "revision": "d117e03d3f615318951af9f9d8be61f6e763391f",
+          "version": "1.0.0"
         }
       },
       {
